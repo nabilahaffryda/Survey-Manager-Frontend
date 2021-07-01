@@ -38,7 +38,7 @@
                             </v-row>
                         </v-col>
                     </form>
-                    <!-- <p v-if="showError" id="error">Username already exists</p> -->
+                    <p v-if="showError" id="error">Username already exists</p>
                 </v-card>
             </v-flex>
         </v-layout>
@@ -56,23 +56,23 @@ export default {
         email: "",
         password: "",
       },
-    //   showError: false
+      showError: false
     };
   },
   methods: {
     ...mapActions(["Register"]),
     async submitRegister() {
-        console.log(this.Register(this.form))
-        this.$router.push("/login");
+        // console.log(this.Register(this.form))
+        // this.$router.push("/login");
         // await this.Register(this.form);
         // this.$router.push("/login");
-    //   try {
-    //     await this.Register(this.form);
-    //     this.$router.push("/login");
-    //     // this.showError = false
-    //   } catch (error) {
-    //     // this.showError = true
-    //   }
+      try {
+        await this.Register(this.form);
+        this.$router.push("/login");
+        this.showError = false
+      } catch (error) {
+        this.showError = true
+      }
     },
   },
 };
