@@ -4,10 +4,14 @@ import vuetify from './plugins/vuetify'
 import router from './router'
 import axios from 'axios'
 import store from './store'
+import { ValidationObserver } from 'vee-validate'
+import { ValidationProvider } from 'vee-validate/dist/vee-validate.full.esm';
 
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = 'http://localhost:8080/';
 
+Vue.component('ValidationProvider', ValidationProvider);
+Vue.component('ValidationObserver', ValidationObserver);
 Vue.config.productionTip = false
 
 new Vue({

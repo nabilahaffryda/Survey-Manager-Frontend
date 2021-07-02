@@ -8,21 +8,31 @@
                             Login
                         </h2>
                     </v-col>
+                     <ValidationObserver v-slot="{ submitLogin }">
                     <form @submit.prevent="submitLogin">
                         <v-col md="12">
                             <v-row>
                                 <v-col md="12">
-                                    <v-text-field  outline label="Email" v-model="form.email" name="email" type="email">
-                                    </v-text-field>
-                                    <v-text-field  outline label="Password" v-model="form.password" name="password" type="password">
-                                    </v-text-field>
+                                   <ValidationProvider  name="email" rules="required|email" v-slot="{ errors }">
+                                            <v-text-field outline label="Email" 
+                                                v-model="form.email" type="email">
+                                            </v-text-field>
+                                            <span>{{ errors[0] }}</span>
+                                    </ValidationProvider>
+                                    <ValidationProvider  name="password" rules="required|max:12|min:8" v-slot="{ errors }">
+                                            <v-text-field outline label="Password" 
+                                            v-model="form.password" 
+                                            type="password">
+                                            </v-text-field>
+                                            <span>{{ errors[0] }}</span>
+                                    </ValidationProvider>
                                 </v-col>
                             </v-row>
                         </v-col>
                         <v-col md="12">
                             <v-row>
                                 <v-col md="12">
-                                    <v-btn block="" color="primary" type="submit" @click="submitLogin()">
+                                    <v-btn block="" color="primary" type="submit" @click="submit()">
                                         Login
                                     </v-btn>
                                 </v-col>
@@ -34,6 +44,7 @@
                             </v-row>
                         </v-col>
                     </form>
+                    </ValidationObserver>
                     <p v-if="showError" id="error">Username or Password is incorrect</p>
                 </v-card>
             </v-flex>
@@ -56,15 +67,12 @@ export default {
   },
   methods: {
     ...mapActions(["LogIn"]),
-    async submitLogin() {
+    async submit() {
       const User = new FormData();
       User.append("email", this.form.email);
       User.append("password", this.form.password);
-    //   console.log(this.LogIn(User))
-    //     // await this.LogIn(User);
-    //       this.$router.push("/dashboard");
       try {
-          await this.LogIn(User);
+          await(this.LogIn(User)) ;
           this.$router.push("/dashboard");
           this.showError = false
       } catch (error) {
