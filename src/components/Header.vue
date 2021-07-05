@@ -7,7 +7,15 @@
                 </v-btn>
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-toolbar-items>
+            <v-toolbar-items v-if="isLoggedIn">
+                <v-btn text @click="redirectCreateSurvey()">
+                    Create Survey
+                </v-btn>
+                <v-btn text @click="logout()">
+                    Log out
+                </v-btn>
+            </v-toolbar-items>
+            <v-toolbar-items v-else>
                 <v-btn text @click="redirectLogin()">
                     Login
                 </v-btn>
@@ -21,7 +29,16 @@
 <script>
 export default {
     name: 'Header',
+    computed: {
+        isLoggedIn: function() {
+        return this.$store.getters.isAuthenticated;
+        },
+    },
     methods: {
+        async logout() {
+            await this.$store.dispatch("LogOut");
+            this.$router.push("/login");
+        },
         redirectLogin(){
             this.$router.push('/login')
         },

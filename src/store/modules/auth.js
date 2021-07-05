@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const state = {
     user: null,
-    // posts: null,
+    // dashboard: null,
 };
 const getters = {
     isAuthenticated: state => !!state.user,    
@@ -34,9 +34,8 @@ const mutations = {
     // setPosts(state, posts){
     //     state.posts = posts
     // },
-    LogOut(state){
-        state.user = null
-        // state.posts = null
+    logout(state, user) {
+        state.user = user;
     },
 };
 export default {

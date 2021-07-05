@@ -32,7 +32,7 @@
                                             </v-text-field>
                                             <span>{{ errors[0] }}</span>
                                         </ValidationProvider>
-                                         <ValidationProvider  name="password" rules="required|confirmed:password" v-slot="{ errors, valid }" >
+                                         <ValidationProvider  name="confirm password" rules="required|confirmed:password" v-slot="{ errors, valid }" >
                                             <v-text-field outline label="Confirm Password" :state="errors[0] ? false : (valid ? true : null)"
                                             v-model="form.c_password" name="c_password" type="password">
                                             </v-text-field>
