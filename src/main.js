@@ -14,6 +14,27 @@ Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
 Vue.config.productionTip = false
 
+// axios.interceptors.response.use(undefined, function (error) {
+//   if (error) {
+//     const originalRequest = error.config;
+//     if (error.response.status === 401 && !originalRequest._retry) {
+  
+//         originalRequest._retry = true;
+//         store.dispatch('LogOut')
+//         return router.push('/login')
+//     }
+//   }
+// })
+
+// axios.interceptors.request.use(request => {
+//     const token = store.getters["user/token"];
+
+//     if(token){
+//         request.headers.common["Authorization"] = `Bearer ${token}`;
+//     }
+//     return request;
+// })
+
 new Vue({
   vuetify,
   router,

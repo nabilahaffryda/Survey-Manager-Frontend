@@ -8,8 +8,8 @@
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items v-if="isLoggedIn">
-                <v-btn text @click="redirectCreateSurvey()">
-                    Create Survey
+                <v-btn text  >
+                    <Popup/>
                 </v-btn>
                 <v-btn text @click="logout()">
                     Log out
@@ -27,6 +27,7 @@
     </v-container>
 </template>
 <script>
+import Popup from '../views/Popup.vue'
 export default {
     name: 'Header',
     computed: {
@@ -34,6 +35,7 @@ export default {
         return this.$store.getters.isAuthenticated;
         },
     },
+    components: {Popup},
     methods: {
         async logout() {
             await this.$store.dispatch("LogOut");
@@ -47,7 +49,7 @@ export default {
         },
         redirectHome(){
             this.$router.push('/')
-        }
+        },
     }
 }
 </script>
