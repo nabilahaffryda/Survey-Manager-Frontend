@@ -45,8 +45,8 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" flat @click.native="onCloseModal">Cancel</v-btn>
-                        <v-btn color="blue darken-1" flat @click.native="onSaveModal(editedItem.name)">Save</v-btn>
+                        <v-btn color="blue darken-1"  @click.native="onCloseModal">Cancel</v-btn>
+                        <v-btn color="blue darken-1"  @click.native="onSaveModal(editedItem.name)">Save</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -55,27 +55,28 @@
                 :headers="headers"
                 :items="surveys"
                 :loading="loading"
-               
                 class="elevation-1"
         >
-            <template slot="items" slot-scope="props">
-                <td class="text-sm-left">{{ props.item.id }}</td>
-                <td class="text-sm-left">{{ props.item.name }}</td>
-                <td class="text-sm-left">{{ props.item.created_at}}</td>
-                <td class="justify-center layout px-0">
-                    <v-btn icon class="mx-0" @click="runSurvey(props.item.slug)">
-                        <v-icon color="teal">play_circle_outline</v-icon>
-                    </v-btn>
-                    <v-btn icon class="mx-0" @click="showResults(props.item.id)">
-                        <v-icon color="indigo">question_answer</v-icon>
-                    </v-btn>
-                    <v-btn icon class="mx-0" @click="editItem(props.item.id)">
-                        <v-icon color="amber">edit</v-icon>
-                    </v-btn>
-                    <v-btn icon class="mx-0" @click="deleteItem(props.item)">
-                        <v-icon color="pink">delete</v-icon>
-                    </v-btn>
-                </td>
+            <template slot="item" slot-scope="props" >
+                <tr>
+                    <td class="text-sm-left">{{ props.item.id }}</td>
+                    <td class="text-sm-left">{{ props.item.name }}</td>
+                    <td class="text-sm-left">{{ props.item.created_at}}</td>
+                    <td class="justify layout px-0" >
+                        <v-btn icon class="mx-0" @click="runSurvey(props.item.slug)">
+                            <v-icon color="teal">mdi-play-circle-outline</v-icon>
+                        </v-btn>
+                        <v-btn icon class="mx-0" @click="showResults(props.item.id)">
+                            <v-icon color="indigo">mdi-forum</v-icon>
+                        </v-btn>
+                        <v-btn icon class="mx-0" @click="editItem(props.item.id)">
+                            <v-icon color="amber">mdi-pencil</v-icon>
+                        </v-btn>
+                        <v-btn icon class="mx-0" @click="deleteItem(props.item)">
+                            <v-icon color="pink">mdi-delete</v-icon>
+                        </v-btn>
+                    </td>
+                </tr>
             </template>
             <template slot="no-data">
                 <v-btn color="primary" @click="getSurveys">Reset</v-btn>
@@ -118,12 +119,12 @@ import axios from 'axios'
                     // },
                     {
                         text: 'Created date',
-                        valie: 'created_at',
+                        value: 'created_at',
                         sortable: false
                     },
                     {
                         text: 'Actions',
-                        value: 'actions',
+                        value: 'action',
                         sortable: false
                     }
                 ],
@@ -144,7 +145,7 @@ import axios from 'axios'
         methods: {
             getSurveys() {
                 this.loading = true;
-                axios.get('survey', {
+                axios.get('/survey', {
                     params: {
                         page: this.page
                     }
@@ -167,7 +168,7 @@ import axios from 'axios'
             deleteItem(item) {
                 if(confirm('Are you sure you want to delete this survey?')) {
                     this.snackbar = true;
-                    axios.delete('survey/' + item.id)
+                    axios.delete('/survey/' + item.id)
                         .then((response) => {
                             if(response.status === 200) {
                                 this.$root.snackbarMsg = response.data.message;
@@ -190,7 +191,7 @@ import axios from 'axios'
                         pages: []
                     }
                 };
-                axios.post('survey', data)
+                axios.post('/survey', data)
                     .then((response) => {
                         if(response.status === 201) {
                             this.dialog = false;

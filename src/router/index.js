@@ -5,9 +5,9 @@ import Register from '../views/Register'
 import Home from '../views/Home'
 import Dashboard from '../views/Dashboard'
 import store from "../store"
-import SurveyEditor from "../views/SurveyEditor"
+// import SurveyEditor from "../views/SurveyEditor"
 import SurveyList from "../views/SurveyList"
-import SurveyResult from "../views/SurveyResult"
+// import SurveyResult from "../views/SurveyResult"
 
 Vue.use(VueRouter)
 
@@ -34,8 +34,8 @@ const routes = [
     meta: { requiresAuth: true },
   },
   { path: '/list', component: SurveyList, name: 'survey-list'},
-  { path: '/:id', component: SurveyEditor, name: 'editor'},
-  { path: '/:id/results', component: SurveyResult, name: 'result'}
+  // { path: '/editor', component: SurveyEditor, name: 'editor'},
+  // { path: '/:id/results', component: SurveyResult, name: 'result'}
 ]
 
 export default new VueRouter({
