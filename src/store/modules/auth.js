@@ -14,7 +14,7 @@ const actions = {
 
     async Register({dispatch}, form) {
         // await axios.post('register', form)
-        await axios.post('register', form, {
+        await axios.post('/register', form, {
             headers: {
                 "Content-Type": "application/json"
             }
@@ -26,7 +26,7 @@ const actions = {
         // await dispatch('LogIn', UserForm) 
     },
     async LogIn({commit}, User) {
-        await axios.post('login', User,
+        await axios.post('/login', User,
             {
                 headers: {
                     "Content-Type": "application/json"

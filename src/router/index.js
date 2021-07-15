@@ -5,6 +5,9 @@ import Register from '../views/Register'
 import Home from '../views/Home'
 import Dashboard from '../views/Dashboard'
 import store from "../store"
+import SurveyEditor from "../views/SurveyEditor"
+import SurveyList from "../views/SurveyList"
+import SurveyResult from "../views/SurveyResult"
 
 Vue.use(VueRouter)
 
@@ -30,36 +33,40 @@ const routes = [
     component: Dashboard,
     meta: { requiresAuth: true },
   },
+  { path: '/list', component: SurveyList, name: 'survey-list'},
+  { path: '/:id', component: SurveyEditor, name: 'editor'},
+  { path: '/:id/results', component: SurveyResult, name: 'result'}
 ]
 
-const router = new VueRouter({
+export default new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
+  // base: '/' + SurveyConfig.admin_prefix + '/survey',
   routes
 });
 
-router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (store.getters.isAuthenticated) {
-      next();
-      return;
-    }
-    next("/login");
-  } else {
-    next();
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some((record) => record.meta.requiresAuth)) {
+//     if (store.getters.isAuthenticated) {
+//       next();
+//       return;
+//     }
+//     next("/login");
+//   } else {
+//     next();
+//   }
+// });
 
-router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.guest)) {
-    if (store.getters.isAuthenticated) {
-      next("/dashboard");
-      return;
-    }
-    next();
-  } else {
-    next();
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some((record) => record.meta.guest)) {
+//     if (store.getters.isAuthenticated) {
+//       next("/dashboard");
+//       return;
+//     }
+//     next();
+//   } else {
+//     next();
+//   }
+// });
 
-export default router;
+// export default router;

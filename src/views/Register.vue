@@ -37,7 +37,6 @@
                                             v-model="form.c_password" name="c_password" type="password">
                                             </v-text-field>
                                             <span>{{ errors[0] }}</span>
-                                            <!-- <p v-if="showError" id="error">Password does not match</p> -->
                                         </ValidationProvider>
                                     </v-col> 
                                 </v-row>
@@ -75,7 +74,6 @@ export default {
         email: "",
         password: "",
       },
-    //   showError: false,
     };
   },
   methods: {
@@ -84,9 +82,7 @@ export default {
       try {
        await(this.Register(this.form));
         this.$router.push("/login");
-        // this.showError = false
       } catch (error) {
-        // this.showError = true
         console.log(error)
       }
     },
