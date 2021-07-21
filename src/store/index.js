@@ -24,5 +24,9 @@ export default new Vuex.Store({
       context.commit('saveUserLogged', loggedUser)
     }
   },
+  // state: {},
+  // mutations: {},
+  // actions: {},
+  // getters: {},
   plugins: [createPersistedState()]
 });

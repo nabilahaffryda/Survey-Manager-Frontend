@@ -145,7 +145,8 @@ import { mapActions } from "vuex";
         },
         methods: {
             getSurveys() {
-                axios.get('/survey', {
+                this.loading = true;
+                axios.get('http://localhost:8080/survey', {
                     params: {
                         page: this.page
                     },
@@ -155,71 +156,18 @@ import { mapActions } from "vuex";
                         "cache-control": "no-cache",
                         "Content-Type": "application/json"
                     }
-                    // console.log()
                 })
-            //     axios.get('/survey')
-            //     .then(res => {
-                    
-            //         commit('getSurveys', res.data)
-            //     }).catch(err => {
-            //     console.log(err)
-            // })
-                // let user =  axios.get('http://localhost:8080/survey/');
-                // this.user = user;
-                // axios.get('http://localhost:8080/survey/' + this.$route.params.id)
-                // .then((result) => {
-                // this.page = result.data;
-                // console.log(this.page);
-
-                // })
-                // axios.get('/survey', {
-                //     params: {
-                //         page: this.page
-                //     },
-                //     headers: {
-                //         "Authorization": "bearer " + localStorage.getItem('token'),
-                //         "Accept": "application/json",
-                //         "cache-control": "no-cache"
-                //     }
-                // })
-                // .then(function (response) {
-                //     console.log(response);
-                // })
-                // axios.get('/survey', {
-                //     params: {
-                //         page: this.page
-                //     },
-                //     headers: {
-                //         "Content-Type": "application/json"
-                //     }
-                // })
-                // fetch('http://localhost:8080/survey')
-                // .then(response => response.json())
-                // .then((data) => {
-                //     this.surveys = response.data.data;
-                // })
-                // this.loading = true;
-                // axios.get('http://localhost:8080/survey', {
-                //     params: {
-                //         page: this.page
-                //     },
-                //     headers: {
-                //         "Authorization": "bearer " + localStorage.getItem('token'),
-                //         "Accept": "application/json",
-                //         "cache-control": "no-cache"
-                //     }
-                // })
-                //     .then((response) => {
-                //         if(response.status === 200) {
-                //             this.surveys = response.data.data;
-                //             this.pageLength = Math.ceil(response.data.meta.total / response.data.meta.per_page);
-                //             this.loading = false;
-                //         }
-                //     })
-                //     .catch((error) => {
-                //         this.loading = false;
-                //         console.info(error.response);
-                //     })
+                    .then((response) => {
+                        if(response.status === 200) {
+                            this.surveys = response.data.data;
+                            this.pageLength = Math.ceil(response.data.meta.total / response.data.meta.per_page);
+                            this.loading = false;
+                        }
+                    })
+                    .catch((error) => {
+                        this.loading = false;
+                        console.info(error.response);
+                    })
             },
             editItem(id) {
                 this.$router.push({name: 'editor', params: {id: id}})

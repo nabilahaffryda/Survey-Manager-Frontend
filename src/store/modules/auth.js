@@ -1,6 +1,10 @@
 import axios from 'axios';
 
 const state = {
+    // refresh_token: "",
+    // access_token: "",
+    // loggedInUser: {},
+    // isAuthenticated: false,
     user: null,
     dashboard: null,
     // user_id: null
@@ -10,6 +14,10 @@ const TOKEN = "token";
 const getters = {
     isAuthenticated: state => !!state.user,
     StateUser: state => state.user,
+    // loggedInUser: state => state.loggedInUser,
+    // isAuthenticated: state => state.isAuthenticated,
+    // accessToken: state => state.access_token,
+    // refreshToken: state => state.refresh_token
 };
 
 const actions = {
@@ -74,11 +82,29 @@ const actions = {
 const mutations = {
     setUser(state, email){
         state.user = email
-        // localStorage.setItem('email', user)
     },
     logout(state, user) {
         state.user = user;
     },
+    // setRefreshToken: function(state, refreshToken) {
+    //     state.refresh_token = refreshToken;
+    //   },
+    //   setAccessToken: function(state, accessToken) {
+    //     state.access_token = accessToken;
+    //   },
+    //   // sets state with user information and toggles 
+    //   // isAuthenticated from false to true
+    //   setLoggedInUser: function(state, user) {
+    //     state.loggedInUser = user;
+    //     state.isAuthenticated = true;
+    //   },
+    //   // delete all auth and user information from the state
+    //   clearUserData: function(state) {
+    //     state.refresh_token = "";
+    //     state.access_token = "";
+    //     state.loggedInUser = {};
+    //     state.isAuthenticated = false;
+    //   }
 };
 export default {
   state,

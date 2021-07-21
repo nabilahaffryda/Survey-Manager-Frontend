@@ -45,7 +45,6 @@
                         </v-col>
                     </form>
                     </ValidationObserver>
-                    <p v-if="showError" id="error">Username or Password is incorrect</p>
                 </v-card>
             </v-flex>
         </v-layout>
@@ -62,7 +61,6 @@ export default {
         email: "",
         password: "",
       },
-      showError: false
     };
   },
   
@@ -75,9 +73,8 @@ export default {
       try {
           await(this.LogIn(User)) ;
           this.$router.push("/dashboard");
-          this.showError = false
       } catch (error) {
-        this.showError = true
+          console.log(error)
       }
     },
   },
