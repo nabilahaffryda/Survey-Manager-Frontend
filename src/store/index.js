@@ -6,26 +6,23 @@ import auth from './modules/auth';
 // Load Vuex
 Vue.use(Vuex);
 // Create store
+
 export default new Vuex.Store({
   modules: {
     auth
   },
-  plugins: [createPersistedState()],
-  // state: {
-  //   msg: 'Vuetify table of Vuex state items.',
-  //   headers: [
-  //     {
-  //       text: 'Code',
-  //       align: 'left',
-  //       sortable: true,
-  //       value: 'code'
-  //     },
-
-  //     // { text: 'Name', value: 'name' },
-  //     // { text: 'Description', value: 'description' },
-
-  //     { text: 'Actions', value: 'action', sortable: false }
-  //   ],
-  // }
-
+  state: {
+    userlogged: ''
+  },
+  mutations: {
+    saveUserLogged (state, loggedUser) {
+      state.userLogged = loggedUser
+    }
+  },
+  actions: {
+    saveUserLogged (context, loggedUser) {
+      context.commit('saveUserLogged', loggedUser)
+    }
+  },
+  plugins: [createPersistedState()]
 });

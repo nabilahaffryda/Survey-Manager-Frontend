@@ -3,8 +3,10 @@ import axios from 'axios';
 const state = {
     user: null,
     dashboard: null,
+    // user_id: null
 };
-
+const lc = window.localStorage;
+const TOKEN = "token";
 const getters = {
     isAuthenticated: state => !!state.user,
     StateUser: state => state.user,
@@ -29,55 +31,50 @@ const actions = {
         await axios.post('/login', User,
             {
                 headers: {
+                    "Authorization": "bearer " + localStorage.getItem('token'),
+                    "Accept": "application/json",
+                    "cache-control": "no-cache",
                     "Content-Type": "application/json"
                 }
             }
         )
+        .then(res => {
+            lc.setItem(TOKEN, res.data.success.token);
+        })
         await commit('setUser', User.get('email'))
     },
     async LogOut({commit}, user){
-        // axios.post('logout').then(response => {
-        //     if (response.status === 302 || 401) {
-        //         console.log('logout')
-        //     }
-        //     else {
-        //         // throw error and go to catch block
-        //     }
-        // }).catch(error => {
-        //     //run this code always when status!==200
-        // });
-        // axios.post('logout', user, {
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     }
-        // })
-        // axios({
-        //     method: 'post',
-        //     url: 'logout',
-        //     // data: bodyFormData,
-        //     headers: {'Content-Type': 'application/json' }
-        //     })
-        //     .then(function (response) {
-        //         //handle success
-        //         console.log(response);
-        //     })
-        //     .catch(function (response) {
-        //         //handle error
-        //         console.log(response);
-        //     });
-        // const options = {
-        //     method: 'POST',
-        //     headers: { 'content-type': 'application/json' },
-        //     url: 'logout'
-        //   };
-        // axios(options);
-        // let user = null
+        
         commit('logout', user)
     },      
+    // async getSurveys({dispatch}, User){
+    //     axios.get('/survey', {
+    //                 params: {
+    //                     page: this.page
+    //                 },
+    //                 headers: {
+    //                     "Authorization": "bearer " + localStorage.getItem('token'),
+    //                     "Accept": "application/json",
+    //                     "cache-control": "no-cache"
+    //                 }
+    //             })
+    //                 .then((response) => {
+    //                     if(response.status === 200) {
+    //                         this.surveys = response.data.data;
+    //                         this.pageLength = Math.ceil(response.data.meta.total / response.data.meta.per_page);
+    //                         this.loading = false;
+    //                     }
+    //                 })
+    //                 .catch((error) => {
+    //                     this.loading = false;
+    //                     console.info(error.response);
+    //                 })
+    // }
 };
 const mutations = {
     setUser(state, email){
         state.user = email
+        // localStorage.setItem('email', user)
     },
     logout(state, user) {
         state.user = user;

@@ -8,7 +8,6 @@ import * as SurveyEditor from 'surveyjs-editor'
 import 'surveyjs-editor/surveyeditor.css'
 import * as SurveyKo from "survey-knockout"
 import * as widgets from "surveyjs-widgets"
-// import * as SurveyConfig from "survey-vue"
 
 Object.filter = (obj, predicate) =>
         Object.keys(obj)
@@ -35,7 +34,7 @@ export default {
             this.editor = new SurveyEditor.SurveyEditor('surveyEditorContainer', editorOptions);
             this.editor.text = JSON.stringify(this.surveyData);
             let self = this;
-            this.editor.saveSurveyFunc = function () {
+            this.editor.saveSurveyFunc = function () {  
                 axios.put('/survey/' + self.id, {json: JSON.parse(this.text)})
                     .then((response) => {
                         self.editor.text = JSON.stringify(response.data.data.json);
@@ -45,7 +44,7 @@ export default {
                     .catch((error) => {
                         console.error(error.response);
                     })
-        };
+            };
     }
 }
 </script>
