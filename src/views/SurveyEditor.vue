@@ -2,7 +2,7 @@
     <div>
         <v-toolbar>
             <v-btn icon class="mb-3" @click.native = "$router.push({name: 'home'})">
-                <v-icon large>home</v-icon>
+                <v-icon large>mdi-home</v-icon>
             </v-btn>
             <v-toolbar-title @click.prevent="nameField = true" v-if="!nameField">{{surveyName}}</v-toolbar-title>
             <v-flex xs4 v-else>
@@ -16,8 +16,8 @@
                 ></v-text-field>
             </v-flex>
             <v-toolbar-items v-if="nameField">
-                <v-btn small flat color="primary" @click.prevent="postEdit">Save</v-btn>
-                <v-btn small flat color="warning" @click.prevent="onCancelEdit">Cancel</v-btn>
+                <v-btn small  color="primary" @click.prevent="postEdit">Save</v-btn>
+                <v-btn small  color="warning" @click.prevent="onCancelEdit">Cancel</v-btn>
             </v-toolbar-items>
         </v-toolbar>
         <survey-builder :json="survey.json" :id="survey.id" v-if="Object.keys(survey).length"></survey-builder>
@@ -25,6 +25,7 @@
 </template>
 <script>
 import SurveyBuilder from './SurveyBuilder'
+import axios from 'axios'
 export default {
     name: 'editor',
     components: {

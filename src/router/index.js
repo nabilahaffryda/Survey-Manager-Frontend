@@ -6,7 +6,7 @@ import Home from '../views/Home'
 import Dashboard from '../views/Dashboard'
 import store from "../store"
 import route from 'vue-router'
-// import SurveyEditor from "../views/SurveyEditor"
+import SurveyEditor from "../views/SurveyEditor"
 import SurveyList from "../views/SurveyList"
 // import SurveyResult from "../views/SurveyResult"
 
@@ -35,7 +35,7 @@ const routes = [
     meta: { requiresAuth: true },
   },
   { path: '/list', component: SurveyList, name: 'survey-list'},
-  // { path: '/:id', component: SurveyEditor, name: 'editor'},
+  { path: '/:id', component: SurveyEditor, name: 'editor'},
   // { path: '/:id/results', component: SurveyResult, name: 'result'}
 ]
 
