@@ -1,59 +1,28 @@
 <template>
     <div>
-        <div id="surveyEditorContainer"></div>
-        <!-- <survey v-if="surveyConfig" :survey="surveyConfig"></survey> -->
+        <div id="surveyCreatorContainer"></div>
     </div>
 </template>
 <script>
-import * as SurveyEditor from 'surveyjs-editor'
-import 'surveyjs-editor/surveyeditor.css'
+// import * as SurveyEditor from 'surveyjs-editor'
+// import 'surveyjs-editor/surveyeditor.css'
+import "survey-creator/survey-creator.css";
 import * as SurveyKo from "survey-knockout"
 import * as widgets from "surveyjs-widgets"
 import axios from 'axios'
+import * as SurveyCreator from 'survey-creator'
 import SurveyConfigVue from '../SurveyConfig.vue'
-import Survey from 'survey-vue'
-// import {SurveyConfig} from "../SurveyConfig.vue"
-// import * as SurveyConfig from "survey-builder"
-// import * as SurveyConfig from 'survey-vue'
-// const SurveyConfig & surveyConfig = (const SurveyConfig&)getConfig();
-//  const SurveyConfig = generateSurveyConfig(config);
-// const SurveyConfig & surveyConfig = (const SurveyConfig&)getWorld()->getConfig();
-// const getSurveysConfig = (): SurveyConfig[] => config.get('surveys');
-// var SurveyConfig = getSurveyConfiguration();
-// let surveyConfig: SurveyConfig;
-// const SurveyConfig = surveysConfig[surveyCode];
-// Survey
-//     .StylesManager
-//     .applyTheme("modern");
-// const SurveyConfig = this.getSurvey();
-// let SurveyConfig;
-// const SurveyConfig = SurveyEditor.builder;
-// const SurveyConfig = editorOptions.SurveyConfig || {};
-// const SurveyConfig = axios.get('http://localhost:8080/survey', 
-// {
-//     headers: {
-//         // "Authorization": "bearer " + localStorage.getItem('token'),
-//         "Accept": "application/json",
-//         "cache-control": "no-cache",
-//         "Content-Type": "application/json"
-//     }
-// })
-// const SurveyConfig = null;
-// var SurveyConfig = {};
 
-// Object.assign(SurveyConfig, sourceObj);
-// var SurveyConfig;
+Object.filter = (obj, predicate) =>
+    Object.keys(obj)
+        .filter( key => predicate(obj[key]) )
+        .reduce( (res, key) => Object.assign(res, { [key]: obj[key] }), {} );
 
-// Object.filter = (obj, predicate) =>
-//     Object.keys(obj)
-//         .filter( key => predicate(obj[key]) )
-//         .reduce( (res, key) => Object.assign(res, { [key]: obj[key] }), {} );
+const widgetsList = Object.filter(widget => widget === true);
 
-// const widgetsList = Object.filter(Survey.widgets, widget => widget === true);
-
-// Object.keys(widgetsList).forEach(function (widget) {
-//     widgets[widget](SurveyKo);
-// });
+Object.keys(widgetsList).forEach(function (widget) {
+    widgets[widget](SurveyKo);
+});
 
 export default {
     name: 'survey-builder',
@@ -66,8 +35,8 @@ export default {
     },
     mounted(){
         let editorOptions = SurveyConfigVue.builder;
-        SurveyEditor.StylesManager.applyTheme("modern");
-        this.editor = new SurveyEditor.SurveyEditor('surveyEditorContainer', editorOptions);
+        SurveyCreator.StylesManager.applyTheme("modern");
+        this.editor = new SurveyCreator.SurveyCreator('surveyCreatorContainer', editorOptions);
         this.editor.text = JSON.stringify(this.surveyData);
         let self = this;
         this.editor.saveSurveyFunc = function () {  
