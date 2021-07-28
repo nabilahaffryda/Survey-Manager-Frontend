@@ -6,6 +6,7 @@ const state = {
 };
 const lc = window.localStorage;
 const TOKEN = "token";
+
 const getters = {
     isAuthenticated: state => !!state.user,
     StateUser: state => state.user,

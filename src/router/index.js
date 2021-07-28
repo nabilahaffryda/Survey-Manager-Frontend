@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../views/Login'  
-import Register from '../views/Register'
+import Login from '../views/authentication/Login'  
+import Register from '../views/authentication/Register'
 import Home from '../views/Home'
 import store from "../store"
-import route from 'vue-router'
-import SurveyEditor from "../views/SurveyEditor"
-import SurveyList from "../views/SurveyList"
-// import SurveyResult from "../views/SurveyResult"
+import SurveyEditor from "../views/survey/SurveyEditor"
+import SurveyList from "../views/survey/SurveyList"
+// import SurveyResult from "../views/SurveyResul
+import TeamList from "../views/team/TeamList"
 
 Vue.use(VueRouter)
 
@@ -27,9 +27,28 @@ const routes = [
     name: 'Register',
     component: Register
   },
-  { path: '/list', component: SurveyList, name: 'survey-list', meta: { requiresAuth: true },},
-  { path: '/:id', component: SurveyEditor, name: 'editor'},
-  // { path: '/:id/results', component: SurveyResult, name: 'result'}
+  { 
+    path: '/surveylist', 
+    component: SurveyList, 
+    name: 'survey-list', 
+    meta: { requiresAuth: true },
+  },
+  { 
+    path: '/:id', 
+    component: SurveyEditor, 
+    name: 'editor',
+    meta: { requiresAuth: true },
+  },
+  // { 
+  //   path: '/:id/results', 
+  //   component: SurveyResult, 
+  //   name: 'result'
+  // },
+  { 
+    path: '/teamlist', 
+    component: TeamList, 
+    name: 'team-list',
+  },
 ]
 
 const router = new VueRouter({
@@ -54,7 +73,7 @@ router.beforeEach((to, from, next) => {
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.guest)) {
     if (store.getters.isAuthenticated) {
-      next("/dashboard");
+      next("/surveylist");
       return;
     }
     next();

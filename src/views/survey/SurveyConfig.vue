@@ -8,7 +8,7 @@
 import * as SurveyJS from 'survey-vue'
 
 export default {
-    name: 'a-component',
+    name: 'survey-config',
 
     props: {
         config: {

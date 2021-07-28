@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <v-container>
         <v-toolbar>
             <v-toolbar-title>List of all available surveys</v-toolbar-title>
             <v-spacer></v-spacer>
@@ -70,12 +70,11 @@
         <div class="text-xs-center pt-2">
             <v-pagination v-model="page" :length="pageLength" :total-visible="7"></v-pagination>
         </div>
-    </div>
+    </v-container>
 </template>
 
 <script>
 import axios from 'axios'
-import { mapActions } from "vuex";
     export default {
         name: 'survey-list',
         data () {

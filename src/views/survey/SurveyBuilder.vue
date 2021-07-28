@@ -8,7 +8,7 @@ import "survey-creator/survey-creator.css";
 import * as widgets from "surveyjs-widgets"
 import axios from 'axios'
 import * as SurveyCreator from 'survey-creator'
-import SurveyConfigVue from '../SurveyConfig.vue'
+import SurveyConfigVue from './SurveyConfig.vue'
 
 Object.filter = (obj, predicate) =>
     Object.keys(obj)
