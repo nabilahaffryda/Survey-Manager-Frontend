@@ -2,9 +2,7 @@
     <v-container>
         <v-toolbar flat>
             <v-toolbar-title >
-                <v-btn text @click="redirectHome()">
                     Survey Manager
-                </v-btn>
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items v-if="isLoggedIn">

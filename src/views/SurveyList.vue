@@ -24,21 +24,6 @@
                                             ]"
                                     >
                                     </v-text-field>
-                                    <!-- <v-select
-                                        :items="[
-                                        'Event registration', 
-                                        'Event feedback', 
-                                        'Customer feedback', 
-                                        'Course evaluation',
-                                        'Student or parent feedback',
-                                        'Academic research',
-                                        'Community or volunteer feedback',
-                                        'Concept, product, or ad testing',
-                                        'Other',
-                                        ]"
-                                        label="Survey Category*"
-                                        required
-                                    ></v-select> -->
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -113,11 +98,6 @@ import { mapActions } from "vuex";
                         value: 'name',
                         sortable: false
                     },
-                    // {
-                    //     text: 'Category',
-                    //     value: 'category',
-                    //     sortable: false
-                    // },
                     {
                         text: 'Created date',
                         value: 'created_at',
@@ -146,7 +126,7 @@ import { mapActions } from "vuex";
         methods: {
             getSurveys() {
                 this.loading = true;
-                axios.get('http://localhost:8080/survey', {
+                axios.get('/survey', {
                     params: {
                         page: this.page
                     },

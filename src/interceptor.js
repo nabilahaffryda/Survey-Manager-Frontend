@@ -33,9 +33,9 @@ axios.interceptors.response.use(
       switch(error.response.status){
         case 400:
           break;
-        // case 401:
-        //   alert("session expired");
-        //   break;
+        case 401:
+          alert("session expired");
+          break;
         case 403:
           router.replace({
             path: "/login",
