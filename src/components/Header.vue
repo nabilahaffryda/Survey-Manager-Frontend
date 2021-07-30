@@ -10,8 +10,11 @@
                 <v-btn text @click="redirectSurvey()">
                    Survey
                 </v-btn>
-                <v-btn text @click="redirectTeam()">
-                   Team
+                <v-btn text @click="redirectTeamMember()">
+                   Team Member
+                </v-btn>
+                <v-btn text @click="redirectTeamSurvey()">
+                   Team Survey
                 </v-btn>
                 <v-menu offset-y>
                     <template v-slot:activator="{ on }">
@@ -74,8 +77,11 @@ export default {
         redirectSurvey(){
             this.$router.push('/surveylist')
         },
-        redirectTeam(){
-            this.$router.push({name: 'team-list'})
+        redirectTeamMember(){
+            this.$router.push({name: 'team-member-list'})
+        },
+        redirectTeamSurvey(){
+            this.$router.push({name: 'team-survey-list'})
         }
     },
 }

@@ -7,7 +7,8 @@ import store from "../store"
 import SurveyEditor from "../views/survey/SurveyEditor"
 import SurveyList from "../views/survey/SurveyList"
 // import SurveyResult from "../views/SurveyResult
-import TeamList from "../views/team/TeamList"
+import TeamMemberList from "../views/team-member/TeamMemberList"
+import TeamSurveyList from "../views/team-survey/TeamSurveyList"
 
 Vue.use(VueRouter)
 
@@ -45,9 +46,14 @@ const routes = [
   //   name: 'result'
   // },
   { 
-    path: '/teamlist', 
-    component: TeamList, 
-    name: 'team-list',
+    path: '/teammemberlist', 
+    component: TeamMemberList, 
+    name: 'team-member-list',
+  },
+  { 
+    path: '/teamsurveylist', 
+    component: TeamSurveyList, 
+    name: 'team-survey-list',
   },
 ]
 
