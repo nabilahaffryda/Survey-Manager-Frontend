@@ -6,7 +6,7 @@ import Home from '../views/Home'
 import store from "../store"
 import SurveyEditor from "../views/survey/SurveyEditor"
 import SurveyList from "../views/survey/SurveyList"
-// import SurveyResult from "../views/SurveyResul
+// import SurveyResult from "../views/SurveyResult
 import TeamList from "../views/team/TeamList"
 
 Vue.use(VueRouter)

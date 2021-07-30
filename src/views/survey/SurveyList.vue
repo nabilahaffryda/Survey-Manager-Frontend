@@ -125,7 +125,7 @@ import axios from 'axios'
         methods: {
             getSurveys() {
                 this.loading = true;
-                axios.get('/survey', {
+                axios.get('/survey/', {
                     params: {
                         page: this.page
                     },
@@ -136,17 +136,17 @@ import axios from 'axios'
                         "Content-Type": "application/json"
                     }
                 })
-                    .then((response) => {
-                        if(response.status === 200) {
-                            this.surveys = response.data.data;
-                            this.pageLength = Math.ceil(response.data.meta.total / response.data.meta.per_page);
-                            this.loading = false;
-                        }
-                    })
-                    .catch((error) => {
+                .then((response) => {
+                    if(response.status === 200) {
+                        this.surveys = response.data.data;
+                        this.pageLength = Math.ceil(response.data.meta.total / response.data.meta.per_page);
                         this.loading = false;
-                        console.info(error.response);
-                    })
+                    }
+                })
+                .catch((error) => {
+                    this.loading = false;
+                    console.info(error.response);
+                })
             },
             editItem(id) {
                 this.$router.push({name: 'editor', params: {id: id}})
@@ -189,9 +189,9 @@ import axios from 'axios'
                         }
                     })
             },
-            runSurvey(slug) {
-                window.open('/' + SurveyConfig.route_prefix + '/' + slug, '_blank');
-            },
+            // runSurvey(slug) {
+            //     window.open('/' + SurveyConfigVue.route_prefix + '/' + slug, '_blank');
+            // },
             showResults(id) {
                 this.$router.push({name: 'result', params: {id: id} })
             }

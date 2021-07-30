@@ -7,6 +7,12 @@
             <v-spacer></v-spacer>
 
             <v-toolbar-items v-if="isLoggedIn">
+                <v-btn text @click="redirectSurvey()">
+                   Survey
+                </v-btn>
+                <v-btn text @click="redirectTeam()">
+                   Team
+                </v-btn>
                 <v-menu offset-y>
                     <template v-slot:activator="{ on }">
                         <v-btn v-on="on" text color="white">
@@ -44,9 +50,8 @@ export default {
     data() {
         return {
             links: [
-                {icon: 'survey', text: 'Survey', route: '/surveylist'},
-                {icon: 'team', text: 'Team', route: '/teamlist'},
-            ]
+                // {icon: 'survey', text: 'Survey', route: '/surveylist'},
+            ],
         }
     },
     computed: {
@@ -66,9 +71,12 @@ export default {
         redirectRegister(){
             this.$router.push('/register')
         },
-        redirectHome(){
-            this.$router.push('/')
+        redirectSurvey(){
+            this.$router.push('/surveylist')
         },
+        redirectTeam(){
+            this.$router.push({name: 'team-list'})
+        }
     },
 }
 </script>
