@@ -57,7 +57,7 @@ const routes = [
     name: 'team-survey-list',
   },
   { 
-    path: '/memberlist', 
+    path: '/memberlist/:id', 
     component: MemberList, 
     name: 'member-list',
   },

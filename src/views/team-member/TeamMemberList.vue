@@ -44,7 +44,7 @@
         >
             <template v-slot:item="props">
                 <tr>
-                    <td class="text-sm-left" >{{ props.item.name }}</td>
+                    <td class="text-sm-left" >{{ props.item.team_name }}</td>
                     <td class="text-sm-left">{{ props.item.created_at}}</td>
                     <td class="justify layout px-0" >
                         <v-btn icon class="mx-0" @click="editItem(props.item.id)">
@@ -80,7 +80,7 @@ export default {
             headers: [
                 {
                     text: 'Name',
-                    value: 'name',
+                    value: 'team_name',
                     sortable: false
                 },
                 {
@@ -133,9 +133,9 @@ export default {
                 console.info(error.response);
             })
         },
-        // editItem(id) {
-        //     this.$router.push({name: 'editor', params: {id: id}})
-        // },
+        editItem(id) {
+            this.$router.push({name: 'member-list', params: {id: id}})
+        },
         deleteItem(item) {
             if(confirm('Are you sure you want to delete this team?')) {
                 this.snackbar = true;
@@ -171,7 +171,6 @@ export default {
                     this.$root.snackbar = true;
                     this.editedItem = Object.assign({}, {name: ''});
                     this.getTeams();
-                    // console.log("team done")
                 }
             })
         },
