@@ -6,15 +6,15 @@
         </v-toolbar>
         <v-data-table
                 :headers="headers"
-                :items="teamsurvey"
+                :items="teams"
                 :loading="loading"
                 class="elevation-1"
         >
             <template v-slot:item="props">
                 <tr>
-                    <td class="text-sm-left">{{ props.item.name }}</td>
-                    <td class="text-sm-left">{{ props.item.owner_id }}</td>
-                    <td class="text-sm-left">{{ props.item.created_at}}</td>
+                    <td class="text-sm-left">{{ props.item.team_name }}</td>
+                    <td class="text-sm-left">{{ props.item.team_owner }}</td>
+                    <td class="text-sm-left">{{ props.item.created_date}}</td>
                     <td class="justify layout px-0" >
                         <v-btn icon class="mx-0" @click="editItem(props.item.id)">
                             <v-icon color="amber">mdi-pencil</v-icon>
@@ -36,31 +36,28 @@
 </template>
 <script>
 import axios from 'axios'
-const data = {
-    
-}
 export default {
     name: 'team-survey-list',
     data () {
         return {
-            teamsurvey: [],
+            teams: [],
             page: 1,
             pageLength: 1,
             loading: false,
             headers: [
                 {
                     text: 'Team Name',
-                    value: 'name',
+                    value: 'team_name',
                     sortable: false
                 },
                 {
                     text: 'Owner Team',
-                    // value: 'owner_id',
+                    value: 'team_owner',
                     sortable: false
                 },
                 {
                     text: 'Created date',
-                    value: 'created_at',
+                    value: 'created_date',
                     sortable: false
                 },
                 {
@@ -95,20 +92,19 @@ export default {
             })
             .then((response) => {
                 if(response.status === 200) {
-                    this.teamsurvey = response.data.data;
+                    this.teams = response.data.data;
                     this.pageLength = Math.ceil(response.data.meta.total / response.data.meta.per_page);
                     this.loading = false;
                 }
             })
             .catch((error) => {
                 this.loading = false;
-                // console.info(error.response);
-                console.log(error.response);
+                console.info(error.response);
             })
         },
-        editItem(id) {
-            this.$router.push({name: 'editor', params: {id: id}})
-        },
+        // editItem(id) {
+        //     this.$router.push({name: 'editor', params: {id: id}})
+        // },
         deleteItem(item) {
             if(confirm('Are you sure you want to delete this team?')) {
                 this.snackbar = true;
@@ -119,8 +115,8 @@ export default {
                             this.$root.snackbar = true;
                         }
                     });
-                const index = this.teamsurvey.indexOf(item);
-                this.teamsurvey.splice(index, 1);
+                const index = this.teams.indexOf(item);
+                this.teams.splice(index, 1);
             }
         },
     }

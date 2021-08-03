@@ -44,7 +44,7 @@
         >
             <template v-slot:item="props">
                 <tr>
-                    <td class="text-sm-left">{{ props.item.name }}</td>
+                    <td class="text-sm-left" >{{ props.item.name }}</td>
                     <td class="text-sm-left">{{ props.item.created_at}}</td>
                     <td class="justify layout px-0" >
                         <v-btn icon class="mx-0" @click="editItem(props.item.id)">
@@ -130,8 +130,7 @@ export default {
             })
             .catch((error) => {
                 this.loading = false;
-                // console.info(error.response);
-                console.log(error.response);
+                console.info(error.response);
             })
         },
         // editItem(id) {
@@ -163,7 +162,7 @@ export default {
                     pages: []
                 }
             };
-            axios.post('/team', data)
+            axios.post('/team/', data)
             .then((response) => {
                 if(response.status === 201) {
                     this.dialog = false;
@@ -172,6 +171,7 @@ export default {
                     this.$root.snackbar = true;
                     this.editedItem = Object.assign({}, {name: ''});
                     this.getTeams();
+                    // console.log("team done")
                 }
             })
         },

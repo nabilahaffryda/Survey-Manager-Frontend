@@ -4,7 +4,7 @@
       <Header/>
     </v-app-bar>
     <v-main>
-    <router-view/>
+    <router-view />
     <v-snackbar :timeout="6000" bottom right multi-line v-model="$root.snackbar">
       {{ $root.snackbarMsg }}
       <v-btn color="blue" @click.native="$root.snackbar = false">Close</v-btn>

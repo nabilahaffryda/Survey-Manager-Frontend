@@ -9,6 +9,7 @@ import SurveyList from "../views/survey/SurveyList"
 // import SurveyResult from "../views/SurveyResult
 import TeamMemberList from "../views/team-member/TeamMemberList"
 import TeamSurveyList from "../views/team-survey/TeamSurveyList"
+import MemberList from "../views/team-member/MemberList"
 
 Vue.use(VueRouter)
 
@@ -55,6 +56,11 @@ const routes = [
     component: TeamSurveyList, 
     name: 'team-survey-list',
   },
+  { 
+    path: '/memberlist', 
+    component: MemberList, 
+    name: 'member-list',
+  },
 ]
 
 const router = new VueRouter({
@@ -79,7 +85,7 @@ router.beforeEach((to, from, next) => {
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.guest)) {
     if (store.getters.isAuthenticated) {
-      next("/surveylist");
+      next("/");
       return;
     }
     next();

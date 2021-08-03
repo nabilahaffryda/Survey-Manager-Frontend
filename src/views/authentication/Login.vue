@@ -72,7 +72,7 @@ export default {
       User.append("password", this.form.password);
       try {
           await(this.LogIn(User)) ;
-          this.$router.push("/surveylist");
+          this.$router.push("/");
       } catch (error) {
           console.log(error)
       }
