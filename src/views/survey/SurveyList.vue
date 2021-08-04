@@ -42,7 +42,7 @@
                 :loading="loading"
                 class="elevation-1"
         >
-            <template slot="item" slot-scope="props" >
+            <template v-slot:item="props" >
                 <tr>
                     <td class="text-sm-left">{{ props.item.id }}</td>
                     <td class="text-sm-left">{{ props.item.name }}</td>

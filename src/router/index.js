@@ -10,6 +10,7 @@ import SurveyList from "../views/survey/SurveyList"
 import TeamMemberList from "../views/team-member/TeamMemberList"
 import TeamSurveyList from "../views/team-survey/TeamSurveyList"
 import MemberList from "../views/team-member/MemberList"
+import ListSurvey from "../views/team-survey/ListSurvey"
 
 Vue.use(VueRouter)
 
@@ -60,6 +61,11 @@ const routes = [
     path: '/memberlist/:id', 
     component: MemberList, 
     name: 'member-list',
+  },
+  { 
+    path: '/listsurvey/:id', 
+    component: ListSurvey, 
+    name: 'list-survey',
   },
 ]
 

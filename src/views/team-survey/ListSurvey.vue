@@ -1,21 +1,27 @@
 <template>
     <v-container>
         <v-toolbar>
-            <v-toolbar-title>List of all teams</v-toolbar-title>
+            <v-toolbar-title>List of all available surveys</v-toolbar-title>
             <v-spacer></v-spacer>
         </v-toolbar>
         <v-data-table
                 :headers="headers"
-                :items="teams"
+                :items="surveys"
                 :loading="loading"
                 class="elevation-1"
         >
             <template v-slot:item="props">
                 <tr>
-                    <td class="text-sm-left">{{ props.item.team_name }}</td>
-                    <td class="text-sm-left">{{ props.item.team_owner }}</td>
-                    <td class="text-sm-left">{{ props.item.created_date}}</td>
+                    <!-- <td class="text-sm-left">{{ props.item.id }}</td> -->
+                    <td class="text-sm-left">{{ props.item.survey_name }}</td>
+                    <!-- <td class="text-sm-left">{{ props.item.created_at}}</td> -->
                     <td class="justify layout px-0" >
+                        <v-btn icon class="mx-0" @click="runSurvey(props.item.slug)">
+                            <v-icon color="teal">mdi-play-circle-outline</v-icon>
+                        </v-btn>
+                        <v-btn icon class="mx-0" @click="showResults(props.item.id)">
+                            <v-icon color="indigo">mdi-forum</v-icon>
+                        </v-btn>
                         <v-btn icon class="mx-0" @click="editItem(props.item.id)">
                             <v-icon color="amber">mdi-pencil</v-icon>
                         </v-btn>
@@ -26,7 +32,7 @@
                 </tr>
             </template>
             <template slot="no-data">
-                <v-btn color="primary" @click="getTeamSurvey">Reset</v-btn>
+                <v-btn color="primary" @click="getSurveys">Reset</v-btn>
             </template>
         </v-data-table>
         <div class="text-xs-center pt-2">
@@ -37,29 +43,34 @@
 <script>
 import axios from 'axios'
 export default {
-    name: 'team-survey-list',
+    name: 'list-survey',
     data () {
         return {
-            teams: [],
+            surveys: [
+                {
+                    id: ''
+                }
+            ],
             page: 1,
             pageLength: 1,
             loading: false,
             headers: [
+                // {
+                //     text: 'ID',
+                //     alignt: 'left',
+                //     value: 'id',
+                //     sortable: false
+                // },
                 {
-                    text: 'Team Name',
-                    value: 'team_name',
+                    text: 'Name',
+                    value: 'survey_name',
                     sortable: false
                 },
-                {
-                    text: 'Owner Team',
-                    value: 'team_owner',
-                    sortable: false
-                },
-                {
-                    text: 'Created date',
-                    value: 'created_date',
-                    sortable: false
-                },
+                // {
+                //     text: 'Created date',
+                //     value: 'created_at',
+                //     sortable: false
+                // },
                 {
                     text: 'Actions',
                     value: 'action',
@@ -69,17 +80,18 @@ export default {
         }
     },
     mounted() {
-        this.getTeamSurvey();
+        this.getSurveys();
     },
     watch: {
         page() {
-            this.getTeamSurvey();
+            this.getSurveys();
         }
     },
     methods: {
-        getTeamSurvey() {
+        getSurveys() {
             this.loading = true;
-            axios.get('/team/', {
+            axios.get(`/team/surveyTeam/${this.$route.params.id}`, 
+            {
                 params: {
                     page: this.page
                 },
@@ -92,7 +104,7 @@ export default {
             })
             .then((response) => {
                 if(response.status === 200) {
-                    this.teams = response.data.data;
+                    this.surveys = response.data.data;
                     this.pageLength = Math.ceil(response.data.meta.total / response.data.meta.per_page);
                     this.loading = false;
                 }
@@ -103,27 +115,28 @@ export default {
             })
         },
         editItem(id) {
-            this.$router.push({name: 'list-survey', params: {id: id}})
+            this.$router.push({name: 'editor', params: {id: id}})
         },
         deleteItem(item) {
-            if(confirm('Are you sure you want to delete this team?')) {
+            if(confirm('Are you sure you want to delete this survey?')) {
                 this.snackbar = true;
-                axios.delete('/team/' + item.id)
-                    .then((response) => {
-                        if(response.status === 200) {
-                            this.$root.snackbarMsg = response.data.message;
-                            this.$root.snackbar = true;
-                        }
-                    });
-                const index = this.teams.indexOf(item);
-                this.teams.splice(index, 1);
+                axios.delete('/survey/' + item.id)
+                .then((response) => {
+                    if(response.status === 200) {
+                        this.$root.snackbarMsg = response.data.message;
+                        this.$root.snackbar = true;
+                    }
+                });
+                const index = this.surveys.indexOf(item);
+                this.surveys.splice(index, 1);
             }
         },
+        // runSurvey(slug) {
+        //     window.open('/' + SurveyConfigVue.route_prefix + '/' + slug, '_blank');
+        // },
+        showResults(id) {
+            this.$router.push({name: 'result', params: {id: id} })
+        }
     }
 }
 </script>
-<style>
-    .remove-overflow {
-        overflow: inherit;
-    }
-</style>
