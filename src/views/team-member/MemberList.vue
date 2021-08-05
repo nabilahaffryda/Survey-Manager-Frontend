@@ -17,7 +17,7 @@
                                 <v-flex xs12>
                                     <v-text-field
                                             v-model="editedItem.email"
-                                            label="Member email"
+                                            label="Member's email"
                                             :rules="[
                                             () => !!editedItem.email || 'The email field is required',
                                             () => !!editedItem.email && editedItem.email.length >= 3 || 'The email field must be a valid email!',
@@ -45,6 +45,7 @@
             <template v-slot:item="props">
                 <tr>
                     <td class="text-sm-left" >{{ props.item.member_name }}</td>
+                    <td class="text-sm-left" >{{ props.item.member_email }}</td>
                     <td class="justify layout px-0" >
                         <v-btn icon class="mx-0" @click="editItem(props.item.id)">
                             <v-icon color="amber">mdi-pencil</v-icon>
@@ -84,6 +85,11 @@ export default {
                 {
                     text: 'Member Name',
                     value: 'member_name',
+                    sortable: false
+                },
+                {
+                    text: 'Member Email',
+                    value: 'member_email',
                     sortable: false
                 },
                 {
@@ -161,7 +167,7 @@ export default {
                     pages: []
                 }
             };
-            axios.post('/member/', data)
+            axios.post(`/member/${this.$route.params.id}`, data)
             .then((response) => {
                 if(response.status === 201) {
                     this.dialog = false;

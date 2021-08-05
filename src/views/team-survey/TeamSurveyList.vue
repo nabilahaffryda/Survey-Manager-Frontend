@@ -40,7 +40,11 @@ export default {
     name: 'team-survey-list',
     data () {
         return {
-            teams: [],
+            teams: [
+                {
+                    id: ''
+                }
+            ],
             page: 1,
             pageLength: 1,
             loading: false,
@@ -81,6 +85,7 @@ export default {
             this.loading = true;
             axios.get('/team/', {
                 params: {
+                    id : this.teams.id,
                     page: this.page
                 },
                 headers: {

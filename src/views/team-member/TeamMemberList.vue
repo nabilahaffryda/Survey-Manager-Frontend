@@ -42,6 +42,7 @@
                 :loading="loading"
                 class="elevation-1"
         >
+        {{loading.loading}}
             <template v-slot:item="props">
                 <tr>
                     <td class="text-sm-left" >{{ props.item.team_name }}</td>
@@ -95,7 +96,7 @@ export default {
                 }
             ],
             editedItem: {
-                name: ''
+               name: ''
             },
         }
     },
