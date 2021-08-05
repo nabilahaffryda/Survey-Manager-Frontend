@@ -165,7 +165,7 @@ export default {
             };
             axios.post('/team/', data)
             .then((response) => {
-                if(response.status === 201) {
+                if(response.status === 200) {
                     this.dialog = false;
                     this.loading = false;
                     this.$root.snackbarMsg = response.data.message;
