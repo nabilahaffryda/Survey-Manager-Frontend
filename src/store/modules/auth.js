@@ -10,6 +10,9 @@ const TOKEN = "token";
 const getters = {
     isAuthenticated: state => !!state.user,
     StateUser: state => state.user,
+    getNotifications: state => state.notifications,
+    getNotifHeader: state => state.currentTime,
+    getNotificationAmt: state => state.notifications.length,
 };
 
 const actions = {
@@ -53,6 +56,9 @@ const mutations = {
     logout(state, user) {
         state.user = user;
     },
+    clearNotifications(state){
+        state.notifications = 0
+    }
 };
 export default {
   state,

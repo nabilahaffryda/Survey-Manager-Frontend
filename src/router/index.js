@@ -11,6 +11,7 @@ import TeamMemberList from "../views/team-member/TeamMemberList"
 import TeamSurveyList from "../views/team-survey/TeamSurveyList"
 import MemberList from "../views/team-member/MemberList"
 import ListSurvey from "../views/team-survey/ListSurvey"
+import DetailInvitation from "../views/DetailInvitation"
 
 Vue.use(VueRouter)
 
@@ -51,21 +52,30 @@ const routes = [
     path: '/teammemberlist', 
     component: TeamMemberList, 
     name: 'team-member-list',
+    meta: { requiresAuth: true },
   },
   { 
     path: '/teamsurveylist', 
     component: TeamSurveyList, 
     name: 'team-survey-list',
+    meta: { requiresAuth: true },
   },
   { 
     path: '/memberlist/:id', 
     component: MemberList, 
     name: 'member-list',
+    meta: { requiresAuth: true },
   },
   { 
     path: '/listsurvey/:id', 
     component: ListSurvey, 
     name: 'list-survey',
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/detailinvitation',
+    name: 'detail-invitation',
+    component: DetailInvitation
   },
 ]
 
