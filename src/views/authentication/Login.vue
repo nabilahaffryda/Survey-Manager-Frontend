@@ -37,6 +37,11 @@
                                     </v-btn>
                                 </v-col>
                                 <v-col md="12">
+                                    <v-btn block="" color="primary" type="submit" @click="submitGoogle()">
+                                        Login With Google
+                                    </v-btn>
+                                </v-col>
+                                <v-col md="12">
                                     <p class="text-center">
                                         Don't have an account? <router-link to="register">Sign Up</router-link>
                                     </p>
@@ -51,6 +56,7 @@
     </v-container>
 </template>
 <script>
+import axios from 'axios'
 import { mapActions } from "vuex";
 export default {
   name: "Login",
@@ -77,6 +83,17 @@ export default {
           console.log(error)
       }
     },
+    submitGoogle(){
+        axios.get('/redirect',
+        {
+            headers: {
+                "Accept": "application/json",
+                "cache-control": "no-cache",
+                "Content-Type": "application/json"
+            }
+        });
+    }
   },
 };
 </script>
+
