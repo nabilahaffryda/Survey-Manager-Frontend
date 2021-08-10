@@ -2,34 +2,36 @@
     <v-container  >
         <v-layout wrap style="margin-top: 80px;">
              <v-flex sm12 md6 offset-md3>
-                <v-card :items="teams" :headers="headers"> 
-                    <template v-slot:item="props">
-                    <v-col md="12" >
-                        <h2 class="text-center">
-                            You've been invited to {{ props.item.team_name }} team!
-                        </h2>
-                        <span>Team Owner is {{ props.item.team_owner }}</span>
-                    </v-col>
-                    <v-spacer></v-spacer>
-                    <v-col md="12">
-                    <form>
-                        <v-col md="12">
-                            <v-row>
-                                <v-col md="6">
-                                    <v-btn color="success" type="button" @click="acceptInvitation()" >
-                                        Accept Invitation
-                                    </v-btn>
+                <v-card > 
+                    <v-data-table :items="teams" :headers="headers" :hide-default-header="true" :hide-default-footer="true" disable-pagination>
+                        <template v-slot:item="props">
+                            <v-col md="12" class="text-center">
+                                <h2 >
+                                    You've been invited to {{ props.item.team_name}} team!
+                                </h2>
+                                <span >Team Owner is {{ props.item.team_owner }}</span>
+                            </v-col>
+                            <v-spacer></v-spacer>
+                            <v-col md="12">
+                            <form>
+                                <v-col md="12">
+                                    <v-row>
+                                        <v-col md="6">
+                                            <v-btn color="success" type="button" @click="acceptInvitation()" >
+                                                Accept Invitation
+                                            </v-btn>
+                                        </v-col>
+                                        <v-col md="6">
+                                            <v-btn type="button">
+                                                Decline
+                                            </v-btn>
+                                        </v-col>
+                                    </v-row>
                                 </v-col>
-                                <v-col md="6">
-                                    <v-btn type="button">
-                                        Decline
-                                    </v-btn>
-                                </v-col>
-                            </v-row>
-                        </v-col>
-                    </form>
-                    </v-col>
-                    </template>
+                            </form>
+                            </v-col>
+                        </template>
+                    </v-data-table>
                 </v-card>
              </v-flex>
         </v-layout>
@@ -60,6 +62,14 @@ export default {
             ],
         }
     },
+    mounted() {
+        this.getTeamSurvey();
+    },
+    watch: {
+        page() {
+            this.getTeamSurvey();
+        }
+    },
     methods: {
         getTeamSurvey() {
             axios.get('/team/pendingInvitations/', {
@@ -83,8 +93,11 @@ export default {
             })
         },
         acceptInvitation(){
-            axios.get(`/team/acceptInvitation/${this.$route.params.id}`,
+            axios.post(`/team/acceptInvitation/${this.$route.params.id}`,
             {
+                params: {
+                    id : this.teams.id,
+                },
                 headers: {
                     "Authorization": "bearer " + localStorage.getItem('token'),
                     "Accept": "application/json",

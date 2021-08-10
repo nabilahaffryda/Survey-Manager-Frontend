@@ -33,24 +33,26 @@
                             </v-btn>
                         </v-badge>
                     </template>
-                    <v-card max-width="400" color="primary">
+                    <v-card max-width="400" color="white">
                         <v-container fill-height>
                             <v-row no-gutters>
                                 <v-col cols="7" class="mx-auto ">
-                                    <v-subheader v-if="getNotifHeader" class="d-flex justify-center pa-2 secondary--text " color="white">
+                                    <v-subheader v-if="getNotifHeader" class="d-flex justify-center pa-2 secondary--text " >
                                         Refreshed: {{ notificationHeader }}
                                     </v-subheader>
                                 </v-col>
-                                <v-col cols="12" :items="teams" :headers="headers">
+                                <v-col cols="12" >
+                                    <v-data-table :items="teams" :headers="headers" :hide-default-header="true" :hide-default-footer="true" disable-pagination>
                                     <template v-slot:item="props">
                                         <v-divider/>
-                                        <v-list-item>
-                                            <v-list-item-content>
-                                                <v-list-item-title>Invitation</v-list-item-title>
+                                        <v-list-item v-for="link in notif" :key="link.text" router :to="link.route">
+                                            <v-list-item-content >
+                                                <v-list-item-title>{{ link.text }}</v-list-item-title>
                                                 <v-list-item-subtitle>You've been invited to {{ props.item.team_name }} team!</v-list-item-subtitle>
                                             </v-list-item-content>
                                         </v-list-item>
                                     </template>
+                                    </v-data-table>
                                 </v-col>
                             </v-row>
                             <v-row><v-divider class="mb-1 px-2" /></v-row>
@@ -112,11 +114,14 @@ export default {
     data() {
         return {
             links: [
-                {icon: 'team', text: 'Team Member', route: 'teammemberlist'},
-                {icon: 'team', text: 'Team Survey', route: 'teamsurveylist'},
+                {text: 'Team Member', route: 'teammemberlist'},
+                {text: 'Team Survey', route: 'teamsurveylist'},
             ],
             profile: [
-                {icon: 'mdi-logout', text: 'Logout', route: 'login'},
+                {text: 'Logout', route: 'login'},
+            ],
+            notif: [
+                {text: 'Invitation', route: 'detail-invitation'},
             ],
             notificationLimit: 5, //use in for loop
 			notifHeader: null,

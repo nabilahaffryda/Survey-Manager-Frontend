@@ -73,7 +73,7 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: '/detailinvitation',
+    path: '/detail-invitation',
     name: 'detail-invitation',
     component: DetailInvitation
   },
