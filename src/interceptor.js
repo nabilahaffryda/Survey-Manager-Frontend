@@ -20,6 +20,19 @@ axios.interceptors.request.use(
   }
 );
 
+axios.interceptors.response.use(undefined, function (error) {
+  if (error) {
+    const originalRequest = error.config;
+    if (error.response.status === 401 && !originalRequest._retry) {
+  
+        originalRequest._retry = true;
+        store.dispatch('logout')
+        return router.push('/login')
+    }
+  }
+})
+
+
 axios.interceptors.response.use(
   response => {
     if(response.status === 200 || response.status === 201){
@@ -34,8 +47,8 @@ axios.interceptors.response.use(
         case 400:
           break;
         case 401:
-          alert("session expired");
-          break;
+          // alert("session expired");
+          // break;
         case 403:
           router.replace({
             path: "/login",

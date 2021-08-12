@@ -45,7 +45,7 @@
                                     <v-data-table :items="teams" :headers="headers" :hide-default-header="true" :hide-default-footer="true" disable-pagination>
                                     <template v-slot:item="props">
                                         <v-divider/>
-                                        <v-list-item v-for="link in notif" :key="link.text" router :to="link.route">
+                                        <v-list-item v-for="link in notif" :key="link.index" router :to="link.route">
                                             <v-list-item-content >
                                                 <v-list-item-title>{{ link.text }}</v-list-item-title>
                                                 <v-list-item-subtitle>You've been invited to {{ props.item.team_name }} team!</v-list-item-subtitle>
@@ -118,7 +118,7 @@ export default {
                 {text: 'Team Survey', route: 'teamsurveylist'},
             ],
             profile: [
-                {text: 'Logout', route: 'login'},
+                // {text: 'Logout', route: 'login'},
             ],
             notif: [
                 {text: 'Invitation', route: 'detail-invitation'},
@@ -189,7 +189,7 @@ export default {
             })
         },
         async logout() {
-            await this.$store.dispatch("LogOut");
+            await this.$store.dispatch("logout");
             this.$router.push("/login");
         },
         redirectLogin(){
