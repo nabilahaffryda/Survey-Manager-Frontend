@@ -11,7 +11,6 @@ import TeamMemberList from "../views/team-member/TeamMemberList"
 import TeamSurveyList from "../views/team-survey/TeamSurveyList"
 import MemberList from "../views/team-member/MemberList"
 import ListSurvey from "../views/team-survey/ListSurvey"
-import DetailInvitation from "../views/DetailInvitation"
 
 Vue.use(VueRouter)
 
@@ -71,11 +70,6 @@ const routes = [
     component: ListSurvey, 
     name: 'list-survey',
     meta: { requiresAuth: true },
-  },
-  {
-    path: '/detail-invitation',
-    name: 'detail-invitation',
-    component: DetailInvitation
   },
 ]
 

@@ -36,19 +36,17 @@
                     <v-card max-width="400" color="white">
                         <v-container fill-height>
                             <v-row no-gutters>
-                                <v-col cols="7" class="mx-auto ">
-                                    <v-subheader v-if="getNotifHeader" class="d-flex justify-center pa-2 secondary--text " >
-                                        Refreshed: {{ notificationHeader }}
-                                    </v-subheader>
-                                </v-col>
                                 <v-col cols="12" >
                                     <v-data-table :items="teams" :headers="headers" :hide-default-header="true" :hide-default-footer="true" disable-pagination>
                                     <template v-slot:item="props">
                                         <v-divider/>
-                                        <v-list-item v-for="link in notif" :key="link.index" router :to="link.route">
+                                        <v-list-item >
                                             <v-list-item-content >
-                                                <v-list-item-title>{{ link.text }}</v-list-item-title>
-                                                <v-list-item-subtitle>You've been invited to {{ props.item.team_name }} team!</v-list-item-subtitle>
+                                                <v-list-item-title>You've been invited to {{ props.item.team_name }} team!</v-list-item-title>
+                                                <v-list-item-subtitle>Team Owner is {{ props.item.team_owner }}</v-list-item-subtitle>
+                                                <v-btn color="success" type="button" @click="acceptInvitation(props.item)" >
+                                                    Accept Invitation
+                                                </v-btn>
                                             </v-list-item-content>
                                         </v-list-item>
                                     </template>
@@ -63,11 +61,6 @@
                                             View all notifications 
                                         </v-btn>
                                     </router-link>
-                                </v-col>
-                                <v-col col="3" class="text-center">
-                                    <v-btn small @click="clearNotifs" :color="buttonColor">
-                                        Clear Notifications
-                                    </v-btn>
                                 </v-col>
                             </v-row>
                         </v-container>
@@ -121,7 +114,7 @@ export default {
                 // {text: 'Logout', route: 'login'},
             ],
             notif: [
-                {text: 'Invitation', route: 'detail-invitation'},
+                
             ],
             notificationLimit: 5, //use in for loop
 			notifHeader: null,
@@ -156,7 +149,6 @@ export default {
 			// waits for update on state and updates header from state
 			return this.getNotifHeader;
 		},
-		...mapMutations(["clearNotifications"]),
     },
     mounted() {
         this.getTeamSurvey();
@@ -167,6 +159,25 @@ export default {
         }
     },
     methods: {
+        acceptInvitation(props){
+            console.log(props)
+            axios.post(`/team/acceptInvitation/${props.invitation_key}`,
+            {
+                headers: {
+                    "Authorization": "bearer " + localStorage.getItem('token'),
+                    "Accept": "application/json",
+                    "cache-control": "no-cache",
+                    "Content-Type": "application/json"
+                }
+            })
+            .then((response) => {
+                if(response.status === 201){
+                    this.$root.snackbarMsg = response.data.message;
+                    this.$root.snackbar = true;
+                    this.$router.push('/surveylist');
+                }
+            })
+        },
         getTeamSurvey() {
             axios.get('/team/pendingInvitations/', {
                 params: {
@@ -182,6 +193,7 @@ export default {
             .then((response) => {
                 if(response.status === 200) {
                     this.teams = response.data.data;
+                    this.notif = response.data.data;
                 }
             })
             .catch((error) => {
@@ -201,10 +213,6 @@ export default {
         redirectSurvey(){
             this.$router.push('/surveylist')
         },
-        clearNotifs: function () {
-			this.clearNotifications;
-			this.badgeShow = false;
-		},
     },
 }
 </script>
