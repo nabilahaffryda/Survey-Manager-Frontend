@@ -6,9 +6,10 @@
 
 <script>
     import * as SurveyVue from 'survey-vue'
+    import axios from 'axios'
 
     const Survey = SurveyVue.Survey
-    SurveyVue.StylesManager.applyTheme(SurveyConfig.theme)
+    SurveyVue.StylesManager.applyTheme("modern")
 
     import * as widgets from "surveyjs-widgets";
 
@@ -17,7 +18,7 @@
             .filter( key => predicate(obj[key]) )
             .reduce( (res, key) => Object.assign(res, { [key]: obj[key] }), {} );
 
-    const widgetsList = Object.filter(SurveyConfig.widgets, widget => widget === true);
+    const widgetsList = Object.filter(widget => widget === true);
 
     Object.keys(widgetsList).forEach(function (widget) {
         widgets[widget](SurveyVue);

@@ -6,7 +6,7 @@ import Home from '../views/Home'
 import store from "../store"
 import SurveyEditor from "../views/survey/SurveyEditor"
 import SurveyList from "../views/survey/SurveyList"
-// import SurveyResult from "../views/SurveyResult
+import SurveyResult from "../views/survey/SurveyResult"
 import TeamMemberList from "../views/team-member/TeamMemberList"
 import TeamSurveyList from "../views/team-survey/TeamSurveyList"
 import MemberList from "../views/team-member/MemberList"
@@ -43,11 +43,11 @@ const routes = [
     name: 'editor',
     meta: { requiresAuth: true },
   },
-  // { 
-  //   path: '/:id/results', 
-  //   component: SurveyResult, 
-  //   name: 'result'
-  // },
+  { 
+    path: '/:id/results', 
+    component: SurveyResult, 
+    name: 'result'
+  },
   { 
     path: '/teammemberlist', 
     component: TeamMemberList, 

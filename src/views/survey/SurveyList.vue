@@ -74,6 +74,7 @@
 </template>
 
 <script>
+import SurveyConfigVue from "./SurveyConfig.vue"
 import axios from 'axios'
     export default {
         name: 'survey-list',
@@ -189,9 +190,9 @@ import axios from 'axios'
                         }
                     })
             },
-            // runSurvey(slug) {
-            //     window.open('/' + SurveyConfigVue.route_prefix + '/' + slug, '_blank');
-            // },
+            runSurvey(slug) {
+                window.open('/' + SurveyConfigVue.route_prefix + '/' + slug, '_blank');
+            },
             showResults(id) {
                 this.$router.push({name: 'result', params: {id: id} })
             }
