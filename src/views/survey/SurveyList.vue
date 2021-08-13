@@ -24,6 +24,35 @@
                                             ]"
                                     >
                                     </v-text-field>
+                                    <v-checkbox v-model="checkbox" >
+                                        <template v-slot:label>
+                                            <div>Share with team?</div>
+                                        </template>
+                                    </v-checkbox>
+                                    <v-select
+                                        v-model="selectedItem"
+                                        :headers="headers"
+                                        :items="teams"
+                                        label="Teams"
+                                        name="selectedItem"
+                                        dense
+                                        filled
+                                        outlined 
+                                    >
+                                    <template v-slot:item="props">
+                                        <!-- <v-list-item-content > -->
+                                            {{ props.item.team_name }}
+                                        <!-- </v-list-item-content> -->
+                                        <!-- <v-list-item >
+                                            <v-list-item-content >
+                                                <v-list-item-title>{{ props.item.team_name }}</v-list-item-title>
+                                            </v-list-item-content>
+                                        </v-list-item> -->
+                                    </template>
+                                    <template v-slot:selection="props"> 
+                                        {{ props.item.team_name }}
+                                    </template>
+                                    </v-select>
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -81,11 +110,14 @@ import axios from 'axios'
         data () {
             return {
                 surveys: [],
+                teams: [],
                 page: 1,
                 pageLength: 1,
                 dialog: false,
                 loading: false,
+                checkbox: false,
                 formTitle: 'New Survey',
+                selectedItem: null,
                 headers: [
                     {
                         text: 'ID',
@@ -107,7 +139,12 @@ import axios from 'axios'
                         text: 'Actions',
                         value: 'action',
                         sortable: false
-                    }
+                    },
+                    {
+                        text: 'Name',
+                        value: 'team_name',
+                        sortable: false
+                    },
                 ],
                 editedItem: {
                     name: ''
@@ -117,10 +154,12 @@ import axios from 'axios'
         },
         mounted() {
             this.getSurveys();
+            this.getTeams();
         },
         watch: {
             page() {
                 this.getSurveys();
+                this.getTeams();
             }
         },
         methods: {
@@ -140,6 +179,31 @@ import axios from 'axios'
                 .then((response) => {
                     if(response.status === 200) {
                         this.surveys = response.data.data;
+                        this.pageLength = Math.ceil(response.data.meta.total / response.data.meta.per_page);
+                        this.loading = false;
+                    }
+                })
+                .catch((error) => {
+                    this.loading = false;
+                    console.info(error.response);
+                })
+            },
+            getTeams() {
+                this.loading = true;
+                axios.get('/ownedTeam/', {
+                    params: {
+                        page: this.page
+                    },
+                    headers: {
+                        "Authorization": "bearer " + localStorage.getItem('token'),
+                        "Accept": "application/json",
+                        "cache-control": "no-cache",
+                        "Content-Type": "application/json"
+                    }
+                })
+                .then((response) => {
+                    if(response.status === 200) {
+                        this.teams = response.data.data;
                         this.pageLength = Math.ceil(response.data.meta.total / response.data.meta.per_page);
                         this.loading = false;
                     }

@@ -46,10 +46,11 @@
                 <tr>
                     <td class="text-sm-left" >{{ props.item.member_name }}</td>
                     <td class="text-sm-left" >{{ props.item.member_email }}</td>
+                    <td class="text-sm-left" >{{ props.item.role }}</td>
                     <td class="justify layout px-0" >
-                        <v-btn icon class="mx-0" @click="editItem(props.item.id)">
+                        <!-- <v-btn icon class="mx-0" @click="editItem(props.item.id)">
                             <v-icon color="amber">mdi-pencil</v-icon>
-                        </v-btn>
+                        </v-btn> -->
                         <v-btn icon class="mx-0" @click="deleteItem(props.item)">
                             <v-icon color="pink">mdi-delete</v-icon>
                         </v-btn>
@@ -90,6 +91,11 @@ export default {
                 {
                     text: 'Member Email',
                     value: 'member_email',
+                    sortable: false
+                },
+                {
+                    text: 'Role',
+                    value: 'role',
                     sortable: false
                 },
                 {

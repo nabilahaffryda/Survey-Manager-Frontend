@@ -39,7 +39,6 @@
                                 <v-col cols="12" >
                                     <v-data-table :items="teams" :headers="headers" :hide-default-header="true" :hide-default-footer="true" disable-pagination>
                                     <template v-slot:item="props">
-                                        <v-divider/>
                                         <v-list-item >
                                             <v-list-item-content >
                                                 <v-list-item-title>You've been invited to {{ props.item.team_name }} team!</v-list-item-title>
@@ -49,11 +48,11 @@
                                                 </v-btn>
                                             </v-list-item-content>
                                         </v-list-item>
+                                        <v-divider/>
                                     </template>
                                     </v-data-table>
                                 </v-col>
                             </v-row>
-                            <v-row><v-divider class="mb-1 px-2" /></v-row>
                             <v-row>
                                 <v-col col="3" class="text-center">
                                     <router-link to="notifications">
@@ -101,7 +100,7 @@
 </template>
 <script>
 import axios from 'axios'
-import { mapGetters , mapMutations} from "vuex";
+import { mapGetters} from "vuex";
 export default {
     name: 'Header',
     data() {
@@ -160,7 +159,6 @@ export default {
     },
     methods: {
         acceptInvitation(props){
-            console.log(props)
             axios.post(`/team/acceptInvitation/${props.invitation_key}`,
             {
                 headers: {
