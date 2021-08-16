@@ -12,9 +12,7 @@
         >
             <template v-slot:item="props">
                 <tr>
-                    <!-- <td class="text-sm-left">{{ props.item.id }}</td> -->
-                    <td class="text-sm-left">{{ props.item.survey_name }}</td>
-                    <!-- <td class="text-sm-left">{{ props.item.created_at}}</td> -->
+                    <td class="text-sm-left ">{{ props.item.survey_name }}</td>
                     <td class="justify layout px-0" >
                         <v-btn icon class="mx-0" @click="runSurvey(props.item.slug)">
                             <v-icon color="teal">mdi-play-circle-outline</v-icon>
@@ -24,9 +22,6 @@
                         </v-btn>
                         <v-btn icon class="mx-0" @click="editItem(props.item.id)">
                             <v-icon color="amber">mdi-pencil</v-icon>
-                        </v-btn>
-                        <v-btn icon class="mx-0" @click="deleteItem(props.item)">
-                            <v-icon color="pink">mdi-delete</v-icon>
                         </v-btn>
                     </td>
                 </tr>
@@ -46,36 +41,23 @@ export default {
     name: 'list-survey',
     data () {
         return {
-            surveys: [
-                {
-                    id: ''
-                }
-            ],
+            surveys: [],
             page: 1,
             pageLength: 1,
             loading: false,
             headers: [
-                // {
-                //     text: 'ID',
-                //     alignt: 'left',
-                //     value: 'id',
-                //     sortable: false
-                // },
+                
                 {
-                    text: 'Name',
+                    text: 'Survey Name',
                     value: 'survey_name',
                     sortable: false
                 },
-                // {
-                //     text: 'Created date',
-                //     value: 'created_at',
-                //     sortable: false
-                // },
                 {
                     text: 'Actions',
                     value: 'action',
                     sortable: false
-                }
+                },
+                
             ],
         }
     },
@@ -117,23 +99,9 @@ export default {
         editItem(id) {
             this.$router.push({name: 'editor', params: {id: id}})
         },
-        deleteItem(item) {
-            if(confirm('Are you sure you want to delete this survey?')) {
-                this.snackbar = true;
-                axios.delete('/survey/' + item.id)
-                .then((response) => {
-                    if(response.status === 200) {
-                        this.$root.snackbarMsg = response.data.message;
-                        this.$root.snackbar = true;
-                    }
-                });
-                const index = this.surveys.indexOf(item);
-                this.surveys.splice(index, 1);
-            }
+        runSurvey(slug) {
+            window.open('/' + SurveyConfigVue.route_prefix + '/' + slug, '_blank');
         },
-        // runSurvey(slug) {
-        //     window.open('/' + SurveyConfigVue.route_prefix + '/' + slug, '_blank');
-        // },
         showResults(id) {
             this.$router.push({name: 'result', params: {id: id} })
         }

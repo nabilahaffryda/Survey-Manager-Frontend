@@ -37,7 +37,7 @@ const routes = [
     meta: { requiresAuth: true },
   },
   { 
-    path: '/surveylist/:id', 
+    path: '/surveyeditor/:id', 
     component: SurveyEditor, 
     name: 'editor',
     meta: { requiresAuth: true },

@@ -17,10 +17,7 @@
                     <td class="text-sm-left">{{ props.item.created_date}}</td>
                     <td class="justify layout px-0" >
                         <v-btn icon class="mx-0" @click="editItem(props.item.id)">
-                            <v-icon color="amber">mdi-pencil</v-icon>
-                        </v-btn>
-                        <v-btn icon class="mx-0" @click="deleteItem(props.item)">
-                            <v-icon color="pink">mdi-delete</v-icon>
+                            <v-icon color="amber">mdi-file-multiple</v-icon>
                         </v-btn>
                     </td>
                 </tr>
@@ -110,20 +107,7 @@ export default {
         editItem(id) {
             this.$router.push({name: 'list-survey', params: {id: id}})
         },
-        deleteItem(item) {
-            if(confirm('Are you sure you want to delete this team?')) {
-                this.snackbar = true;
-                axios.delete('/team/' + item.id)
-                    .then((response) => {
-                        if(response.status === 200) {
-                            this.$root.snackbarMsg = response.data.message;
-                            this.$root.snackbar = true;
-                        }
-                    });
-                const index = this.teams.indexOf(item);
-                this.teams.splice(index, 1);
-            }
-        },
+        
     }
 }
 </script>
