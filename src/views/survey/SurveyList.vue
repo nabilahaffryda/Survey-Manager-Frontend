@@ -38,16 +38,11 @@
                                         dense
                                         filled
                                         outlined 
-                                    >
-                                    <template v-slot:item="props">
-                                        <!-- <v-list-item-content > -->
+                                    > 
+                                    <template v-slot:item="props"> 
+                                        <v-list-item-content >
                                             {{ props.item.team_name }}
-                                        <!-- </v-list-item-content> -->
-                                        <!-- <v-list-item >
-                                            <v-list-item-content >
-                                                <v-list-item-title>{{ props.item.team_name }}</v-list-item-title>
-                                            </v-list-item-content>
-                                        </v-list-item> -->
+                                        </v-list-item-content>
                                     </template>
                                     <template v-slot:selection="props"> 
                                         {{ props.item.team_name }}
@@ -73,7 +68,6 @@
         >
             <template v-slot:item="props" >
                 <tr>
-                    <td class="text-sm-left">{{ props.item.id }}</td>
                     <td class="text-sm-left">{{ props.item.name }}</td>
                     <td class="text-sm-left">{{ props.item.created_at}}</td>
                     <td class="justify layout px-0" >
@@ -96,6 +90,16 @@
                 <v-btn color="primary" @click="getSurveys">Reset</v-btn>
             </template>
         </v-data-table>
+        <!-- <v-dialog v-model="dialogDelete" max-width="500px">
+                    <v-card>
+                      <v-card-title>Delete</v-card-title>
+                      <v-card-text>Are you want to delete `{{props.item.name}}` ?</v-card-text>
+                      <v-card-actions>
+                        <v-btn color="primary" text @click="dialogDelete = false">Close</v-btn>
+                        <v-btn color="primary" text @click="deleteItem(props.item)">Delete</v-btn>
+                      </v-card-actions>
+                    </v-card>
+                </v-dialog> -->
         <div class="text-xs-center pt-2">
             <v-pagination v-model="page" :length="pageLength" :total-visible="7"></v-pagination>
         </div>
@@ -120,12 +124,6 @@ import axios from 'axios'
                 selectedItem: null,
                 headers: [
                     {
-                        text: 'ID',
-                        alignt: 'left',
-                        value: 'id',
-                        sortable: false
-                    },
-                    {
                         text: 'Name',
                         value: 'name',
                         sortable: false
@@ -141,9 +139,7 @@ import axios from 'axios'
                         sortable: false
                     },
                     {
-                        text: 'Name',
                         value: 'team_name',
-                        sortable: false
                     },
                 ],
                 editedItem: {
@@ -234,10 +230,11 @@ import axios from 'axios'
                 this.dialog = false;
                 this.editedItem = Object.assign({}, {name: ''})
             },
-            onSaveModal(name) {
+            onSaveModal(name, team_name) {
                 this.loading = true;
                 let data = {
                     name: name,
+                    team_name: team_name,
                     json: {
                         pages: []
                     }
@@ -249,7 +246,7 @@ import axios from 'axios'
                             this.loading = false;
                             this.$root.snackbarMsg = response.data.message;
                             this.$root.snackbar = true;
-                            this.editedItem = Object.assign({}, {name: ''});
+                            this.editedItem = Object.assign({}, {name: '', team_name: ''});
                             this.getSurveys();
                         }
                     })
