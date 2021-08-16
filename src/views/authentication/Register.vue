@@ -44,7 +44,7 @@
                             <v-col md="12">
                                 <v-row>
                                     <v-col md="12">
-                                        <v-btn block="" color="primary" type="submit" @click="submit()">
+                                        <v-btn block="" color="primary" type="button" @click="submit()">
                                             Register
                                         </v-btn>
                                     </v-col>

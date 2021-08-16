@@ -111,14 +111,7 @@ export default {
                 {text: 'Team Survey', route: 'teamsurveylist'},
             ],
             profile: [
-                // {text: 'Logout', route: 'login'},
             ],
-            // notif: [
-                
-            // ],
-            // notificationLimit: 5, //use in for loop
-			// notifHeader: null,
-			// badgeShow: true,
             teams: [
                 {
                     id: ''
@@ -144,11 +137,6 @@ export default {
             return this.$store.getters.isAuthenticated;
         },
         ...mapGetters({User: "StateUser"}),
-        // ...mapGetters(["getNotifications", "getNotifHeader", "getNotificationAmt"]),
-        // notificationHeader: function () {
-		// 	// waits for update on state and updates header from state
-		// 	return this.getNotifHeader;
-		// },
     },
     mounted() {
         this.getTeamSurvey();

@@ -32,12 +32,12 @@
                         <v-col md="12">
                             <v-row>
                                 <v-col md="12">
-                                    <v-btn block="" color="primary" type="submit" @click="submit()">
+                                    <v-btn block="" color="primary" type="button" @click="submit()">
                                         Login
                                     </v-btn>
                                 </v-col>
                                 <v-col md="12">
-                                    <v-btn block="" color="primary" type="submit" @click="submitGoogle()">
+                                    <v-btn block="" color="primary" type="button" @click="submitGoogle()">
                                         Login With Google
                                     </v-btn>
                                 </v-col>

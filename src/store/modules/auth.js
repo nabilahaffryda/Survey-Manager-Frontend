@@ -10,9 +10,6 @@ const TOKEN = "token";
 const getters = {
     isAuthenticated: state => !!state.user,
     StateUser: state => state.user,
-    getNotifications: state => state.notifications,
-    getNotifHeader: state => state.currentTime,
-    getNotificationAmt: state => state.notifications.length,
 };
 
 const actions = {
@@ -44,16 +41,12 @@ const actions = {
         })
         await commit('setUser', User.get('email'))
     },
-    async LogOut({commit}, user){
-        
-        commit('logout', user)
-    }, 
-    logout({commit}, user) {
+    async logout({commit}, user) {
         if(confirm("Are you sure you want to log out?")) {
             axios.post('/logout/').then(response => {
              localStorage.removeItem('token');
              delete axios.defaults.headers.common['Authorization'];
-             commit('logout', user)
+             commit('logout', user);
              this.$router.push("/login");
            })
            .catch(error => {
@@ -71,9 +64,6 @@ const mutations = {
     logout(state, user) {
         state.user = user;
     },
-    clearNotifications(state){
-        state.notifications = 0
-    }
 };
 export default {
   state,
