@@ -25,29 +25,30 @@
                     </v-list>
                 </v-menu>
 
-                <v-menu offset-y :close-on-content-click="true" nudge-left="60" nudge-bottom="57" transition="slide-y-transition" float-left class="ma-2">
+                <v-menu  :close-on-content-click="true" nudge-left="60" nudge-bottom="57" transition="slide-y-transition" float-left class="ma-2">
                     <template v-slot:activator="{ on, attrs }">
-                        <v-badge :content="getNotificationAmt" :value="badgeShow" overlap offset-y="23px" offset-x="17px" color="white">
+                        <v-badge  overlap offset-y="23px" offset-x="17px" color="white">
                             <v-btn id="notifbtn" icon :color="buttonColor" v-bind="attrs" v-on="on">
                                 <v-icon>mdi-bell</v-icon>
                             </v-btn>
                         </v-badge>
                     </template>
-                    <v-card max-width="400" color="white">
-                        <v-container fill-height>
-                            <v-row no-gutters>
-                                <v-col cols="12" >
+                    <v-card max-width="350" color="white" class="text-center">
+                        <v-container fill-height >
+                            <v-row no-gutters >
+                                <v-col cols="12" style="max-height: 150px" class="overflow-y-auto">
                                     <v-data-table :items="teams" :headers="headers" :hide-default-header="true" :hide-default-footer="true" disable-pagination>
                                     <template v-slot:item="props">
-                                        <v-list-item >
-                                            <v-list-item-content >
+                                        <v-list >
+                                            <v-list-item-content class="text-center">
                                                 <v-list-item-title>You've been invited to {{ props.item.team_name }} team!</v-list-item-title>
                                                 <v-list-item-subtitle>Team Owner is {{ props.item.team_owner }}</v-list-item-subtitle>
-                                                <v-btn color="success" type="button" @click="acceptInvitation(props.item)" >
+                                                <spacer/>
+                                                <v-btn :style="{left: '50%', transform:'translateX(-50%)'}" max-width="200" color="success" type="button" @click="acceptInvitation(props.item)" >
                                                     Accept Invitation
                                                 </v-btn>
                                             </v-list-item-content>
-                                        </v-list-item>
+                                        </v-list>
                                         <v-divider/>
                                     </template>
                                     </v-data-table>
@@ -112,12 +113,12 @@ export default {
             profile: [
                 // {text: 'Logout', route: 'login'},
             ],
-            notif: [
+            // notif: [
                 
-            ],
-            notificationLimit: 5, //use in for loop
-			notifHeader: null,
-			badgeShow: true,
+            // ],
+            // notificationLimit: 5, //use in for loop
+			// notifHeader: null,
+			// badgeShow: true,
             teams: [
                 {
                     id: ''
@@ -143,11 +144,11 @@ export default {
             return this.$store.getters.isAuthenticated;
         },
         ...mapGetters({User: "StateUser"}),
-        ...mapGetters(["getNotifications", "getNotifHeader", "getNotificationAmt"]),
-        notificationHeader: function () {
-			// waits for update on state and updates header from state
-			return this.getNotifHeader;
-		},
+        // ...mapGetters(["getNotifications", "getNotifHeader", "getNotificationAmt"]),
+        // notificationHeader: function () {
+		// 	// waits for update on state and updates header from state
+		// 	return this.getNotifHeader;
+		// },
     },
     mounted() {
         this.getTeamSurvey();
