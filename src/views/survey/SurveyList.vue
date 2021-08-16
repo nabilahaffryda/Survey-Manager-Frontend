@@ -33,8 +33,11 @@
                                         v-model="selectedItem"
                                         :headers="headers"
                                         :items="teams"
+                                        item-value="team_id"
+                                        item-text="team_name"
                                         label="Teams"
                                         name="selectedItem"
+
                                         dense
                                         filled
                                         outlined 
@@ -54,8 +57,8 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1"  @click.native="onCloseModal">Cancel</v-btn>
-                        <v-btn color="blue darken-1"  @click.native="onSaveModal(editedItem.name)">Save</v-btn>
+                        <v-btn color="blue darken-1"  @click.native="onCloseModal">Cancel</v-btn> 
+                        <v-btn color="blue darken-1"  @click.native="onSaveModal(editedItem.name, selectedItem)">Save</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -120,8 +123,8 @@ import axios from 'axios'
                 dialog: false,
                 loading: false,
                 checkbox: false,
+                selectedItem: '',
                 formTitle: 'New Survey',
-                selectedItem: null,
                 headers: [
                     {
                         text: 'Name',
@@ -230,11 +233,12 @@ import axios from 'axios'
                 this.dialog = false;
                 this.editedItem = Object.assign({}, {name: ''})
             },
-            onSaveModal(name, team_name) {
+            onSaveModal(name, selectedItem) {
                 this.loading = true;
                 let data = {
                     name: name,
-                    team_name: team_name,
+                    
+                    team_name: selectedItem,
                     json: {
                         pages: []
                     }
@@ -246,13 +250,13 @@ import axios from 'axios'
                             this.loading = false;
                             this.$root.snackbarMsg = response.data.message;
                             this.$root.snackbar = true;
-                            this.editedItem = Object.assign({}, {name: '', team_name: ''});
+                            this.editedItem = Object.assign({}, {name: '', selectedItem: ''});
                             this.getSurveys();
                         }
                     })
             },
             runSurvey(slug) {
-                window.open('/' + SurveyConfigVue.route_prefix + '/' + slug, '_blank');
+                window.open('/' + SurveyConfigVue + '/' + slug, '_blank');
             },
             showResults(id) {
                 this.$router.push({name: 'result', params: {id: id} })
