@@ -49,8 +49,9 @@
                     <td class="justify layout px-0" >
                         <v-btn icon class="mx-0" @click="editItem(props.item.id)">
                             <v-icon color="amber">mdi-pencil</v-icon>
+                            Member
                         </v-btn>
-                        <v-btn icon class="mx-0" @click="deleteItem(props.item)">
+                        <v-btn icon class="mx-8" @click="deleteItem(props.item)">
                             <v-icon color="pink">mdi-delete</v-icon>
                         </v-btn>
                     </td>
