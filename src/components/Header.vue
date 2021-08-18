@@ -85,7 +85,19 @@
                     <span>Logout</span>
                     <v-icon right>mdi-logout</v-icon>
                 </v-btn>
-                
+
+                <v-dialog v-model="dialogLogout" max-width="500px" activator="item">
+                    <v-card >
+                        <v-card-title class="text">Are you sure you want to logout?</v-card-title>
+                        <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+                        <v-btn color="blue darken-1" text @click="logoutConfirm">OK</v-btn>
+                        <v-spacer></v-spacer>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+
             </v-toolbar-items>
 
             <v-toolbar-items v-else>
@@ -96,6 +108,7 @@
                     Register
                 </v-btn>
             </v-toolbar-items>
+            
         </v-toolbar>
     </v-container>
 </template>
@@ -129,6 +142,7 @@ export default {
                     sortable: false
                 },
             ],
+            dialogLogout: false,
         }
     },
     props: ["buttonColor"],
@@ -144,11 +158,14 @@ export default {
     watch: {
         page() {
             this.getTeamSurvey();
-        }
+        },
+        dialogLogout (val) {
+            val || this.close()
+        },
     },
     methods: {
         acceptInvitation(props){
-            axios.post(`/team/acceptInvitation/${props.invitation_key}`,
+            axios.get(`/team/acceptInvitation/${props.invitation_key}`,
             {
                 headers: {
                     "Authorization": "bearer " + localStorage.getItem('token'),
@@ -187,9 +204,13 @@ export default {
                 console.info(error.response);
             })
         },
-        async logout() {
-            await this.$store.dispatch("logout");
+        logout() {
+            this.dialogLogout = true
+        },
+        logoutConfirm() {
+            this.$store.dispatch("logOut");
             this.$router.push("/login");
+            this.close()
         },
         redirectLogin(){
             this.$router.push('/login')
@@ -199,6 +220,13 @@ export default {
         },
         redirectSurvey(){
             this.$router.push('/surveylist')
+        },
+        close() {
+            this.dialogLogout = false
+            this.$nextTick(() => {
+                this.editedItem = Object.assign({}, this.defaultItem)
+                this.editedIndex = -1
+            })
         },
     },
 }

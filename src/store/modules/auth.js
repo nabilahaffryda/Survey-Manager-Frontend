@@ -43,20 +43,18 @@ const actions = {
         })
         await commit('setUser', User.get('email'))
     },
-    async logout({commit}, user) {
-        if(confirm("Are you sure you want to log out?")) {
-            axios.post('/logout/').then(response => {
-             localStorage.removeItem('token');
-             delete axios.defaults.headers.common['Authorization'];
-             commit('logout', user);
-             this.$router.push("/login");
-           })
-           .catch(error => {
-             localStorage.removeItem('token');
-             delete axios.defaults.headers.common['Authorization'];
-             this.$router.push("/login");
-           });       
-        }
+    logOut({commit}, user) {
+        axios.post('/logout/').then(response => {
+            localStorage.removeItem('token');
+            delete axios.defaults.headers.common['Authorization'];
+            commit('logout', user);
+            this.$router.push("/login");
+        })
+        .catch(error => {
+            localStorage.removeItem('token');
+            delete axios.defaults.headers.common['Authorization'];
+            this.$router.push("/login");
+        });    
     },
     checkQuery(){
         if(this.$route.query.email){
