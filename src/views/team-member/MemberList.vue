@@ -1,7 +1,12 @@
 <template>
     <v-container>
-        <v-toolbar>
+        <v-toolbar flat>
             <v-toolbar-title>List of all member</v-toolbar-title>
+            <v-divider
+            class="mx-4"
+            inset
+            vertical
+            ></v-divider>
             <v-spacer></v-spacer>
             <v-dialog text v-model="dialog" max-width="500px" content-class="remove-overflow">
                 <template v-slot:activator="{ on, attrs }">
@@ -13,8 +18,10 @@
                     </v-card-title>
                     <v-card-text>
                         <v-container grid-list-md>
-                            <v-layout wrap>
-                                <v-flex xs12>
+                            <v-row>
+                                <v-col
+                                    cols="12"
+                                > 
                                     <v-text-field
                                             v-model="editedItem.email"
                                             label="Member's email"
@@ -24,8 +31,8 @@
                                             ]"
                                     >
                                     </v-text-field>
-                                </v-flex>
-                            </v-layout>
+                               </v-col>
+                            </v-row>
                         </v-container>
                     </v-card-text>
                     <v-card-actions>
@@ -34,6 +41,17 @@
                         <v-btn color="blue darken-1"  @click.native="onSaveModal(editedItem.email)">Save</v-btn>
                     </v-card-actions>
                 </v-card>
+            </v-dialog>
+            <v-dialog v-model="dialogDelete" max-width="500px" activator="item">
+            <v-card >
+                <v-card-title class="text">Are you sure you want to delete this member?</v-card-title>
+                <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="onCloseModal">Cancel</v-btn>
+                <v-btn color="blue darken-1" text @click="deleteItemConfirm(editedItem.team_id, editedItem.user_id)">OK</v-btn>
+                <v-spacer></v-spacer>
+                </v-card-actions>
+            </v-card>
             </v-dialog>
         </v-toolbar>
         <v-data-table
@@ -45,12 +63,9 @@
             <template v-slot:item="props">
                 <tr>
                     <td class="text-sm-left" >{{ props.item.member_name }}</td>
-                    <td class="text-sm-left" >{{ props.item.member_email }}</td>
+                    <td class="text-sm-left" >{{ props.item.email }}</td>
                     <td class="text-sm-left" >{{ props.item.role }}</td>
                     <td class="justify layout px-0" >
-                        <!-- <v-btn icon class="mx-0" @click="editItem(props.item.id)">
-                            <v-icon color="amber">mdi-pencil</v-icon>
-                        </v-btn> -->
                         <v-btn icon class="mx-0" @click="deleteItem(props.item)">
                             <v-icon color="pink">mdi-delete</v-icon>
                         </v-btn>
@@ -74,13 +89,16 @@ export default {
         return {
             team_user: [
                 {
-                    id: ''
+                    id: '',
+                    team_id: '',
+                    user_id: ''
                 }
             ],
             page: 1,
             pageLength: 1,
             dialog: false,
             loading: false,
+            dialogDelete: false,
             formTitle: 'New Member',
             headers: [
                 {
@@ -90,7 +108,7 @@ export default {
                 },
                 {
                     text: 'Member Email',
-                    value: 'member_email',
+                    value: 'email',
                     sortable: false
                 },
                 {
@@ -115,7 +133,10 @@ export default {
     watch: {
         page() {
             this.getMember();
-        }
+        },
+        dialogDelete (val) {
+            val || this.onCloseModal()
+        },
     },
     methods: {
         getMember() {
@@ -144,26 +165,55 @@ export default {
                 console.info(error.response);
             })
         },
-        // editItem(id) {
-        //     this.$router.push({name: 'member-list', params: {id: id}})
-        // },
         deleteItem(item) {
-            if(confirm('Are you sure you want to delete this member?')) {
-                this.snackbar = true;
-                axios.delete('/member/' + item.id)
-                    .then((response) => {
-                        if(response.status === 200) {
-                            this.$root.snackbarMsg = response.data.message;
-                            this.$root.snackbar = true;
-                        }
-                    });
-                const index = this.team_user.indexOf(item);
-                this.team_user.splice(index, 1);
-            }
+            this.editedItem = Object.assign({}, item)
+            this.dialogDelete = true
+        },
+        // apiParamsSerializer (params) {
+        // var parts = [];
+        // for (var key in params) {
+        //     if (params.hasOwnProperty(key)) {
+        //     var obj = params[key];
+        //     if ($.isArray(obj)) {
+        //         for (var idx = 0; idx < obj.length; idx++) {
+        //         parts.push(key + '=' + encodeURIComponent(obj[idx]));
+        //         }
+        //     } else {
+        //         parts.push(key + '=' + encodeURIComponent(obj));
+        //     }
+        //     }
+        // }
+        // return parts.join('&');
+        // },
+        deleteItemConfirm () {
+            // let team_id = this.team_user.team_id;
+            // let user_id = this.team_user.user_id;
+            axios.delete(`/member/${this.$route.params.team_id}/${this.$route.params.user_id}`,
+                {
+                    // params: {
+                    //     user_id : this.team_user.user_id,
+                    //     team_id: this.team_user.team_id
+                    // }
+                    // paramsSerializer: this.apiParamsSerializer()
+                })
+                .then((response) => {
+                    if(response.status === 200) {
+                        this.$root.snackbarMsg = response.data.message;
+                        this.$root.snackbar = true;
+                        this.editedIndex = this.team_user.indexOf(item)
+                        this.team_user.splice(this.editedIndex, 1)
+                    }
+                });
+            
+            this.onCloseModal()
         },
         onCloseModal() {
             this.dialog = false;
-            this.editedItem = Object.assign({}, {email: ''})
+            this.dialogDelete = false
+            this.$nextTick(() => {
+                this.editedItem = Object.assign({}, this.defaultItem)
+                this.editedIndex = -1
+            })
         },
         onSaveModal(email) {
             this.loading = true;

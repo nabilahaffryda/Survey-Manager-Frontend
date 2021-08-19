@@ -1,7 +1,12 @@
 <template>
     <v-container>
-        <v-toolbar>
+        <v-toolbar flat>
             <v-toolbar-title>List of all teams</v-toolbar-title>
+            <v-divider
+            class="mx-4"
+            inset
+            vertical
+            ></v-divider>
             <v-spacer></v-spacer>
         </v-toolbar>
         <v-data-table
@@ -14,9 +19,9 @@
                 <tr>
                     <td class="text-sm-left">{{ props.item.team_name }}</td>
                     <td class="text-sm-left">{{ props.item.team_owner }}</td>
-                    <td class="text-sm-left">{{ props.item.created_date}}</td>
+                    <td class="text-sm-left">{{ props.item.created_at}}</td>
                     <td class="justify layout px-0" >
-                        <v-btn icon class="mx-0" @click="editItem(props.item.id)">
+                        <v-btn icon class="mx-0" @click="ViewSurvey(props.item.id)">
                             <v-icon color="amber">mdi-file-multiple</v-icon>
                         </v-btn>
                     </td>
@@ -58,7 +63,7 @@ export default {
                 },
                 {
                     text: 'Created date',
-                    value: 'created_date',
+                    value: 'created_at',
                     sortable: false
                 },
                 {
@@ -104,7 +109,7 @@ export default {
                 console.info(error.response);
             })
         },
-        editItem(id) {
+        ViewSurvey(id) {
             this.$router.push({name: 'list-survey', params: {id: id}})
         },
         

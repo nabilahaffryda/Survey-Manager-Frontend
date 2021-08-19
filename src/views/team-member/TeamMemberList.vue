@@ -72,19 +72,19 @@
             <v-dialog v-model="dialogDelete" max-width="450px" activator="item">
                 
             <v-card >
-                <template v-slot:item="item">
+                <!-- <template v-slot:item="item"> -->
                 <v-card-title class="text">Are you sure you want to delete this team?</v-card-title>
                 <!-- <span>Current member: {{item.membership}}</span>
                 <span>Total Survey: {{item.survey_number}}</span> -->
-                <v-card-text class="pa-4">Current member: {{ item.membership }}</v-card-text>
-                <v-card-text class="pa-4">Total Survey: {{ item.survey_number }}</v-card-text>
+                <!-- <v-card-text class="pa-4">Current member: {{ item.membership }}</v-card-text>
+                <v-card-text class="pa-4">Total Survey: {{ item.survey_number }}</v-card-text> -->
                 <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
                 <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
                 <v-spacer></v-spacer>
                 </v-card-actions>
-                </template>
+                <!-- </template> -->
             </v-card>
              
             </v-dialog>
@@ -252,7 +252,6 @@ export default {
         },
         editItem (item) {
             this.editedIndex = this.teams.indexOf(item)
-            this.editedItem.team_name = item.team_name
             this.editedItem = Object.assign({}, item)
             console.log(this.editedItem)
             this.dialog = true
@@ -269,9 +268,13 @@ export default {
                     if(response.status === 200) {
                         this.$root.snackbarMsg = response.data.message;
                         this.$root.snackbar = true;
+                        this.teams.splice(this.editedIndex, 1)
+                    }else if (response.status === 405){
+                        this.$root.snackbarMsg = response.data.message;
+                        this.$root.snackbar = false;
                     }
                 });
-            this.teams.splice(this.editedIndex, 1)
+            
             this.close()
         },
     }

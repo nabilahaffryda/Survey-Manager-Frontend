@@ -43,7 +43,7 @@
                                             <v-list-item-content class="text-center">
                                                 <v-list-item-title>You've been invited to {{ props.item.team_name }} team!</v-list-item-title>
                                                 <v-list-item-subtitle>Team Owner is {{ props.item.team_owner }}</v-list-item-subtitle>
-                                                <spacer/>
+                                                <v-spacer></v-spacer>
                                                 <v-btn :style="{left: '50%', transform:'translateX(-50%)'}" max-width="200" color="success" type="button" @click="acceptInvitation(props.item)" >
                                                     Accept Invitation
                                                 </v-btn>
@@ -165,7 +165,7 @@ export default {
     },
     methods: {
         acceptInvitation(props){
-            axios.get(`/team/acceptInvitation/${props.invitation_key}`,
+            axios.post(`/team/acceptInvitation/${props.invitation_key}`,
             {
                 headers: {
                     "Authorization": "bearer " + localStorage.getItem('token'),

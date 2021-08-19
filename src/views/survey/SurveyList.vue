@@ -227,7 +227,6 @@ import axios from 'axios'
                 this.$router.push({name: 'editor', params: {id: id}})
             },
             deleteItem(item) {
-                this.editedIndex = this.surveys.indexOf(item)
                 this.editedItem = Object.assign({}, item)
                 this.dialogDelete = true
             },
@@ -237,9 +236,11 @@ import axios from 'axios'
                         if(response.status === 200) {
                             this.$root.snackbarMsg = response.data.message;
                             this.$root.snackbar = true;
+                            this.editedIndex = this.surveys.indexOf(item)
+                            this.surveys.splice(this.editedIndex, 1)
                         }
                     });
-                this.surveys.splice(this.editedIndex, 1)
+                
                 this.onCloseModal()
             },
             onCloseModal() {
@@ -255,6 +256,9 @@ import axios from 'axios'
                 let data = {
                     name: name,
                     team_name: selectedItem,
+                    json: {
+                        pages: []
+                    }
                 };
                 axios.post('/survey', data)
                     .then((response) => {
