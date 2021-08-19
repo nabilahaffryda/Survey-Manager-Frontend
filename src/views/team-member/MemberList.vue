@@ -62,6 +62,8 @@
         >
             <template v-slot:item="props">
                 <tr>
+                     <td class="text-sm-left" >{{props.item.team_id}}</td>
+                     <td class="text-sm-left" > {{props.item.user_id}}</td>
                     <td class="text-sm-left" >{{ props.item.member_name }}</td>
                     <td class="text-sm-left" >{{ props.item.email }}</td>
                     <td class="text-sm-left" >{{ props.item.role }}</td>
@@ -101,6 +103,16 @@ export default {
             dialogDelete: false,
             formTitle: 'New Member',
             headers: [
+                {
+                    text: 'Member Name',
+                    value: 'team_id',
+                    sortable: false
+                },
+                {
+                    text: 'Member Name',
+                    value: 'user_id',
+                    sortable: false
+                },
                 {
                     text: 'Member Name',
                     value: 'member_name',
@@ -186,16 +198,23 @@ export default {
         // return parts.join('&');
         // },
         deleteItemConfirm () {
-            // let team_id = this.team_user.team_id;
-            // let user_id = this.team_user.user_id;
-            axios.delete(`/member/${this.$route.params.team_id}/${this.$route.params.user_id}`,
+            const team_id = this.editedItem.team_id;
+            const user_id = this.editedItem.user_id;
+            console.log(this.editedItem.team_id)
+            console.log(this.editedItem.user_id)
+            console.log(this.$route.query)
+            // axios.delete(`/member/`+` ${this.$route.params.team_id} `+ `/`+` ${this.$route.params.user_id}`,
+            // axios.delete(`/member/${this.$route.params.team_id} / ${this.$route.params.user_id}`,
+            axios.delete(`/member/${this.$route.query.team_id}/${this.$route.query.user_id}`,
                 {
-                    // params: {
-                    //     user_id : this.team_user.user_id,
-                    //     team_id: this.team_user.team_id
-                    // }
+                    params: {
+                        
+                        // team_id: this.team_id,
+                        // user_id : this.user_id,
+                    }
                     // paramsSerializer: this.apiParamsSerializer()
-                })
+                }
+                )
                 .then((response) => {
                     if(response.status === 200) {
                         this.$root.snackbarMsg = response.data.message;
@@ -219,9 +238,6 @@ export default {
             this.loading = true;
             let data = {
                 email: email,
-                json: {
-                    pages: []
-                }
             };
             axios.post(`/member/${this.$route.params.id}`, data)
             .then((response) => {
