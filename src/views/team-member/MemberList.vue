@@ -62,8 +62,6 @@
         >
             <template v-slot:item="props">
                 <tr>
-                     <td class="text-sm-left" >{{props.item.team_id}}</td>
-                     <td class="text-sm-left" > {{props.item.user_id}}</td>
                     <td class="text-sm-left" >{{ props.item.member_name }}</td>
                     <td class="text-sm-left" >{{ props.item.email }}</td>
                     <td class="text-sm-left" >{{ props.item.role }}</td>
@@ -103,16 +101,6 @@ export default {
             dialogDelete: false,
             formTitle: 'New Member',
             headers: [
-                {
-                    text: 'Member Name',
-                    value: 'team_id',
-                    sortable: false
-                },
-                {
-                    text: 'Member Name',
-                    value: 'user_id',
-                    sortable: false
-                },
                 {
                     text: 'Member Name',
                     value: 'member_name',
@@ -181,49 +169,17 @@ export default {
             this.editedItem = Object.assign({}, item)
             this.dialogDelete = true
         },
-        // apiParamsSerializer (params) {
-        // var parts = [];
-        // for (var key in params) {
-        //     if (params.hasOwnProperty(key)) {
-        //     var obj = params[key];
-        //     if ($.isArray(obj)) {
-        //         for (var idx = 0; idx < obj.length; idx++) {
-        //         parts.push(key + '=' + encodeURIComponent(obj[idx]));
-        //         }
-        //     } else {
-        //         parts.push(key + '=' + encodeURIComponent(obj));
-        //     }
-        //     }
-        // }
-        // return parts.join('&');
-        // },
         deleteItemConfirm () {
             const team_id = this.editedItem.team_id;
             const user_id = this.editedItem.user_id;
-            console.log(this.editedItem.team_id)
-            console.log(this.editedItem.user_id)
-            console.log(this.$route.query)
-            // axios.delete(`/member/`+` ${this.$route.params.team_id} `+ `/`+` ${this.$route.params.user_id}`,
-            // axios.delete(`/member/${this.$route.params.team_id} / ${this.$route.params.user_id}`,
-            axios.delete(`/member/${this.$route.query.team_id}/${this.$route.query.user_id}`,
-                {
-                    params: {
-                        
-                        // team_id: this.team_id,
-                        // user_id : this.user_id,
-                    }
-                    // paramsSerializer: this.apiParamsSerializer()
-                }
-                )
+            axios.delete(`/member/${team_id}/${user_id}`)
                 .then((response) => {
                     if(response.status === 200) {
                         this.$root.snackbarMsg = response.data.message;
                         this.$root.snackbar = true;
-                        this.editedIndex = this.team_user.indexOf(item)
-                        this.team_user.splice(this.editedIndex, 1)
                     }
                 });
-            
+            this.team_user.splice(this.editedIndex, 1)
             this.onCloseModal()
         },
         onCloseModal() {
