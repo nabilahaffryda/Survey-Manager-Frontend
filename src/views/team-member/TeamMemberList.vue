@@ -68,28 +68,28 @@
                 </v-card-actions>
             </v-card>
             </v-dialog>
+            </v-toolbar>
+
             
-            <v-dialog v-model="dialogDelete" max-width="450px" activator="item">
-                
-            <v-card >
-                <!-- <template v-slot:item="item"> -->
-                <v-card-title class="text">Are you sure you want to delete this team?</v-card-title>
-                <!-- <span>Current member: {{item.membership}}</span>
-                <span>Total Survey: {{item.survey_number}}</span> -->
-                <!-- <v-card-text class="pa-4">Current member: {{ item.membership }}</v-card-text>
-                <v-card-text class="pa-4">Total Survey: {{ item.survey_number }}</v-card-text> -->
-                <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
-                <v-spacer></v-spacer>
-                </v-card-actions>
-                <!-- </template> -->
-            </v-card>
-             
+            <v-dialog v-model="dialogDelete" id="id" max-width="450px" activator="item">
+                <v-data-table :items="teams" :headers="headers"  :hide-default-header="true" :hide-default-footer="true" disable-pagination>
+                    <template v-slot:item="props">
+                        <v-card>
+                            <v-card-title class="text">Are you sure you want to delete this team?</v-card-title>
+                            <v-card-text class="pa-4">Current member: {{ props.item.membership }}</v-card-text>
+                            <v-card-text class="pa-4">Total Survey: {{ props.item.survey_number }}</v-card-text>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+                                <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+                                <v-spacer></v-spacer>
+                            </v-card-actions>
+                        </v-card>
+                    </template>
+                </v-data-table>
             </v-dialog>
-           
-        </v-toolbar>
+            
+        
         <v-data-table
             :headers="headers"
             :items="teams"
@@ -106,7 +106,7 @@
                     <v-btn icon class="mx-0" @click="editItem(props.item)">
                         <v-icon color="amber">mdi-pencil</v-icon>
                     </v-btn>
-                    <v-btn icon class="mx-0" @click="deleteItem(props.item)">
+                    <v-btn icon class="mx-0" @click="deleteItem(props.item.id)">
                         <v-icon color="pink">mdi-delete</v-icon>
                     </v-btn>
                 </td>
@@ -256,11 +256,11 @@ export default {
             console.log(this.editedItem)
             this.dialog = true
         },
-        deleteItem (item) {
-            this.editedIndex = this.teams.indexOf(item)
-            this.editedItem = Object.assign({}, item)
+        deleteItem (id) {
+            this.editedIndex = this.teams.indexOf(id)
+            this.editedItem = Object.assign({}, id)
             this.dialogDelete = true
-            
+            console.log(this.editedItem.id)
         },
         deleteItemConfirm () {
             axios.delete('/team/' + this.editedItem.id)
@@ -274,7 +274,6 @@ export default {
                         this.$root.snackbar = false;
                     }
                 });
-            
             this.close()
         },
     }

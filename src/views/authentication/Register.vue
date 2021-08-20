@@ -65,27 +65,44 @@
 <script>
 import { mapActions } from "vuex";
 export default {
-  name: "Register",
-  components: {},
-  data() {
-    return {
-      form: {
-        username: "",
-        email: "",
-        password: "",
-      },
-    };
-  },
-  methods: {
-    ...mapActions(["Register"]),
-    async submit() {
-      try {
-       await(this.Register(this.form));
-        this.$router.push("/login");
-      } catch (error) {
-        console.log(error)
-      }
+    name: "Register",
+    components: {},
+    data() {
+        return {
+        form: {
+            username: "",
+            email: "",
+            password: "",
+        },
+        };
     },
-  },
+    // mounted() {
+    //     this.checkQuery();
+    // },
+    methods: {
+        ...mapActions(["Register"]),
+        async submit() {
+            try {
+            await(this.Register(this.form));
+                this.$router.push("/login");
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        // selectedEmail(){
+        //     this.email = this.form.email;
+        // },
+        // async checkQuery(){
+        //     if(this.$route.query.email){
+        //         this.verification_code = this.query.email;
+        //         window.history.replaceState({}, document.title, "/verification");
+        //         this.$nextTick(()=> {
+        //             this.verify();
+        //         })
+        //     }else{
+        //         this.verification_code = null;
+        //     }
+        // }
+    },
 };
 </script>

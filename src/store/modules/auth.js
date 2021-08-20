@@ -24,7 +24,7 @@ const actions = {
         UserForm.append('username', form.username)
         UserForm.append('email', form.email)
         UserForm.append('password', form.password)
-        this.checkQuery;
+        // this.checkQuery;
         console.log(this.Register)
     },
     async LogIn({commit}, User) {
@@ -56,17 +56,17 @@ const actions = {
             this.$router.push("/login");
         });    
     },
-    checkQuery(){
-        if(this.$route.query.email){
-            this.verification_code = this.query.email;
-            window.history.replaceState({}, document.title, "/verification");
-            this.$nextTick(()=> {
-                this.verify();
-            })
-        }else{
-            this.verification_code = null;
-        }
-    }
+    // checkQuery(){
+    //     if(this.$route.query.email){
+    //         this.verification_code = this.query.email;
+    //         window.history.replaceState({}, document.title, "/verification");
+    //         this.$nextTick(()=> {
+    //             this.verify();
+    //         })
+    //     }else{
+    //         this.verification_code = null;
+    //     }
+    // }
 }   
 const mutations = {
     setUser(state, email){

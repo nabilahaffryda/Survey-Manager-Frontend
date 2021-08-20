@@ -79,6 +79,42 @@
         <div class="text-xs-center pt-2">
             <v-pagination v-model="page" :length="pageLength" :total-visible="7"></v-pagination>
         </div>
+        <v-spacer></v-spacer>
+
+        <v-divider
+            class="mx-4"
+            inset
+            vertical
+            ></v-divider>
+        <v-toolbar flat>
+            <v-toolbar-title>List of pending members</v-toolbar-title>
+            <v-divider
+            class="mx-4"
+            inset
+            vertical
+            ></v-divider>
+            <v-spacer></v-spacer>
+            
+        </v-toolbar>
+        <v-data-table
+                :headers="header"
+                :items="team_invites"
+                :loading="loading"
+                class="elevation-1"
+            >
+                <template v-slot:item="props">
+                    <tr>
+                        <td class="text-sm-left" >{{ props.item.email }}</td>
+                        <td class="text-sm-left" >{{ props.item.status }}</td>
+                    </tr>
+                </template>
+                <template slot="no-data">
+                    <v-btn color="primary" @click="getPendingMember">Reset</v-btn>
+                </template>
+            </v-data-table>
+            <div class="text-xs-center pt-2">
+                <v-pagination v-model="page" :length="pageLength" :total-visible="7"></v-pagination>
+            </div>
     </v-container>
 </template>
 <script>
@@ -88,6 +124,13 @@ export default {
     data () {
         return {
             team_user: [
+                {
+                    id: '',
+                    team_id: '',
+                    user_id: ''
+                }
+            ],
+            team_invites: [
                 {
                     id: '',
                     team_id: '',
@@ -125,14 +168,28 @@ export default {
             editedItem: {
                 email: ''
             },
+            header: [
+                {
+                    text: 'Member Email',
+                    value: 'email',
+                    sortable: false
+                },
+                {
+                    text: 'Status',
+                    value: 'status',
+                    sortable: false
+                },
+            ]
         }
     },
     mounted() {
         this.getMember();
+        this.getPendingMember();
     },
     watch: {
         page() {
             this.getMember();
+            this.getPendingMember();
         },
         dialogDelete (val) {
             val || this.onCloseModal()
@@ -156,6 +213,32 @@ export default {
             .then((response) => {
                 if(response.status === 200) {
                     this.team_user = response.data.data;
+                    this.pageLength = Math.ceil(response.data.meta.total / response.data.meta.per_page);
+                    this.loading = false;
+                }
+            })
+            .catch((error) => {
+                this.loading = false;
+                console.info(error.response);
+            })
+        },
+        getPendingMember() {
+            this.loading = true;
+            axios.get(`team/pendingMember/${this.$route.params.id}`, 
+            {
+                params: {
+                    page: this.page
+                },
+                headers: {
+                    "Authorization": "bearer " + localStorage.getItem('token'),
+                    "Accept": "application/json",
+                    "cache-control": "no-cache",
+                    "Content-Type": "application/json"
+                }
+            })
+            .then((response) => {
+                if(response.status === 200) {
+                    this.team_invites = response.data.data;
                     this.pageLength = Math.ceil(response.data.meta.total / response.data.meta.per_page);
                     this.loading = false;
                 }
