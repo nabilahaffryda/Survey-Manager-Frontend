@@ -1,10 +1,16 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../views/Login'  
-import Register from '../views/Register'
+import Login from '../views/authentication/Login'  
+import Register from '../views/authentication/Register'
 import Home from '../views/Home'
-import Dashboard from '../views/Dashboard'
 import store from "../store"
+import SurveyEditor from "../views/survey/SurveyEditor"
+import SurveyList from "../views/survey/SurveyList"
+import SurveyResult from "../views/survey/SurveyResult"
+import TeamMemberList from "../views/team-member/TeamMemberList"
+import TeamSurveyList from "../views/team-survey/TeamSurveyList"
+import MemberList from "../views/team-member/MemberList"
+import ListSurvey from "../views/team-survey/ListSurvey"
 
 Vue.use(VueRouter)
 
@@ -24,10 +30,45 @@ const routes = [
     name: 'Register',
     component: Register
   },
-  {
-    path: '/dashboard',
-    name: 'Dashboard',
-    component: Dashboard,
+  { 
+    path: '/surveylist', 
+    component: SurveyList, 
+    name: 'survey-list', 
+    meta: { requiresAuth: true },
+  },
+  { 
+    path: '/surveyeditor/:id', 
+    component: SurveyEditor, 
+    name: 'editor',
+    meta: { requiresAuth: true },
+  },
+  { 
+    path: '/:id/results', 
+    component: SurveyResult, 
+    name: 'result'
+  },
+  { 
+    path: '/teammemberlist', 
+    component: TeamMemberList, 
+    name: 'team-member-list',
+    meta: { requiresAuth: true },
+  },
+  { 
+    path: '/teamsurveylist', 
+    component: TeamSurveyList, 
+    name: 'team-survey-list',
+    meta: { requiresAuth: true },
+  },
+  { 
+    path: '/memberlist/:id', 
+    component: MemberList, 
+    name: 'member-list',
+    meta: { requiresAuth: true },
+  },
+  { 
+    path: '/listsurvey/:id', 
+    component: ListSurvey, 
+    name: 'list-survey',
     meta: { requiresAuth: true },
   },
 ]
@@ -35,6 +76,7 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
+  // base: '/' + SurveyConfig.admin_prefix + '/survey',
   routes
 });
 
@@ -53,7 +95,7 @@ router.beforeEach((to, from, next) => {
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.guest)) {
     if (store.getters.isAuthenticated) {
-      next("/dashboard");
+      next("/");
       return;
     }
     next();
@@ -62,4 +104,4 @@ router.beforeEach((to, from, next) => {
   }
 });
 
-export default router;
+export default router

@@ -32,8 +32,13 @@
                         <v-col md="12">
                             <v-row>
                                 <v-col md="12">
-                                    <v-btn block="" color="primary" type="submit" @click="submit()">
+                                    <v-btn block="" color="primary" type="button" @click="submit()">
                                         Login
+                                    </v-btn>
+                                </v-col>
+                                <v-col md="12">
+                                    <v-btn block="" color="primary" type="button" @click="submitGoogle()">
+                                        Login With Google
                                     </v-btn>
                                 </v-col>
                                 <v-col md="12">
@@ -45,13 +50,13 @@
                         </v-col>
                     </form>
                     </ValidationObserver>
-                    <p v-if="showError" id="error">Username or Password is incorrect</p>
                 </v-card>
             </v-flex>
         </v-layout>
     </v-container>
 </template>
 <script>
+import axios from 'axios'
 import { mapActions } from "vuex";
 export default {
   name: "Login",
@@ -62,9 +67,9 @@ export default {
         email: "",
         password: "",
       },
-      showError: false
     };
   },
+  
   methods: {
     ...mapActions(["LogIn"]),
     async submit() {
@@ -73,12 +78,22 @@ export default {
       User.append("password", this.form.password);
       try {
           await(this.LogIn(User)) ;
-          this.$router.push("/dashboard");
-          this.showError = false
+          this.$router.push("/");
       } catch (error) {
-        this.showError = true
+          console.log(error)
       }
     },
+    submitGoogle(){
+        axios.get('/redirect',
+        {
+            headers: {
+                "Accept": "application/json",
+                "cache-control": "no-cache",
+                "Content-Type": "application/json"
+            }
+        });
+    }
   },
 };
 </script>
+

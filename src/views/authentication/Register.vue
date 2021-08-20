@@ -37,7 +37,6 @@
                                             v-model="form.c_password" name="c_password" type="password">
                                             </v-text-field>
                                             <span>{{ errors[0] }}</span>
-                                            <!-- <p v-if="showError" id="error">Password does not match</p> -->
                                         </ValidationProvider>
                                     </v-col> 
                                 </v-row>
@@ -45,7 +44,7 @@
                             <v-col md="12">
                                 <v-row>
                                     <v-col md="12">
-                                        <v-btn block="" color="primary" type="submit" @click="submit()">
+                                        <v-btn block="" color="primary" type="button" @click="submit()">
                                             Register
                                         </v-btn>
                                     </v-col>
@@ -66,30 +65,44 @@
 <script>
 import { mapActions } from "vuex";
 export default {
-  name: "Register",
-  components: {},
-  data() {
-    return {
-      form: {
-        username: "",
-        email: "",
-        password: "",
-      },
-    //   showError: false,
-    };
-  },
-  methods: {
-    ...mapActions(["Register"]),
-    async submit() {
-      try {
-       await(this.Register(this.form));
-        this.$router.push("/login");
-        // this.showError = false
-      } catch (error) {
-        // this.showError = true
-        console.log(error)
-      }
+    name: "Register",
+    components: {},
+    data() {
+        return {
+        form: {
+            username: "",
+            email: "",
+            password: "",
+        },
+        };
     },
-  },
+    // mounted() {
+    //     this.checkQuery();
+    // },
+    methods: {
+        ...mapActions(["Register"]),
+        async submit() {
+            try {
+            await(this.Register(this.form));
+                this.$router.push("/login");
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        // selectedEmail(){
+        //     this.email = this.form.email;
+        // },
+        // async checkQuery(){
+        //     if(this.$route.query.email){
+        //         this.verification_code = this.query.email;
+        //         window.history.replaceState({}, document.title, "/verification");
+        //         this.$nextTick(()=> {
+        //             this.verify();
+        //         })
+        //     }else{
+        //         this.verification_code = null;
+        //     }
+        // }
+    },
 };
 </script>

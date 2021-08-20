@@ -4,6 +4,8 @@ const state = {
     user: null,
     dashboard: null,
 };
+const lc = window.localStorage;
+const TOKEN = "token";
 
 const getters = {
     isAuthenticated: state => !!state.user,
@@ -13,8 +15,7 @@ const getters = {
 const actions = {
 
     async Register({dispatch}, form) {
-        // await axios.post('register', form)
-        await axios.post('register', form, {
+        await axios.post('/register', form, {
             headers: {
                 "Content-Type": "application/json"
             }
@@ -23,58 +24,50 @@ const actions = {
         UserForm.append('username', form.username)
         UserForm.append('email', form.email)
         UserForm.append('password', form.password)
-        // await dispatch('LogIn', UserForm) 
+        // this.checkQuery;
+        console.log(this.Register)
     },
     async LogIn({commit}, User) {
-        await axios.post('login', User,
+        await axios.post('/login', User,
             {
                 headers: {
+                    "Authorization": "bearer " + localStorage.getItem('token'),
+                    "Accept": "application/json",
+                    "cache-control": "no-cache",
                     "Content-Type": "application/json"
                 }
             }
         )
+        .then(res => {
+            lc.setItem(TOKEN, res.data.success.token);
+        })
         await commit('setUser', User.get('email'))
     },
-    async LogOut({commit}, user){
-        // axios.post('logout').then(response => {
-        //     if (response.status === 302 || 401) {
-        //         console.log('logout')
-        //     }
-        //     else {
-        //         // throw error and go to catch block
-        //     }
-        // }).catch(error => {
-        //     //run this code always when status!==200
-        // });
-        // axios.post('logout', user, {
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     }
-        // })
-        // axios({
-        //     method: 'post',
-        //     url: 'logout',
-        //     // data: bodyFormData,
-        //     headers: {'Content-Type': 'application/json' }
-        //     })
-        //     .then(function (response) {
-        //         //handle success
-        //         console.log(response);
-        //     })
-        //     .catch(function (response) {
-        //         //handle error
-        //         console.log(response);
-        //     });
-        // const options = {
-        //     method: 'POST',
-        //     headers: { 'content-type': 'application/json' },
-        //     url: 'logout'
-        //   };
-        // axios(options);
-        // let user = null
-        commit('logout', user)
-    },      
-};
+    logOut({commit}, user) {
+        axios.post('/logout/').then(response => {
+            localStorage.removeItem('token');
+            delete axios.defaults.headers.common['Authorization'];
+            commit('logout', user);
+            this.$router.push("/login");
+        })
+        .catch(error => {
+            localStorage.removeItem('token');
+            delete axios.defaults.headers.common['Authorization'];
+            this.$router.push("/login");
+        });    
+    },
+    // checkQuery(){
+    //     if(this.$route.query.email){
+    //         this.verification_code = this.query.email;
+    //         window.history.replaceState({}, document.title, "/verification");
+    //         this.$nextTick(()=> {
+    //             this.verify();
+    //         })
+    //     }else{
+    //         this.verification_code = null;
+    //     }
+    // }
+}   
 const mutations = {
     setUser(state, email){
         state.user = email
@@ -87,5 +80,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 };
