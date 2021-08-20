@@ -86,7 +86,7 @@
                     <v-icon right>mdi-logout</v-icon>
                 </v-btn>
 
-                <v-dialog v-model="dialogLogout" max-width="500px" activator="item">
+                <v-dialog v-model="dialogLogout" max-width="350px" activator="item">
                     <v-card >
                         <v-card-title class="text">Are you sure you want to logout?</v-card-title>
                         <v-card-actions>

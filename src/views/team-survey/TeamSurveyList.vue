@@ -19,7 +19,6 @@
                 <tr>
                     <td class="text-sm-left">{{ props.item.team_name }}</td>
                     <td class="text-sm-left">{{ props.item.team_owner }}</td>
-                    <td class="text-sm-left">{{ props.item.created_at}}</td>
                     <td class="justify layout px-0" >
                         <v-btn icon class="mx-0" @click="ViewSurvey(props.item.id)">
                             <v-icon color="amber">mdi-file-multiple</v-icon>
@@ -59,11 +58,6 @@ export default {
                 {
                     text: 'Owner Team',
                     value: 'team_owner',
-                    sortable: false
-                },
-                {
-                    text: 'Created date',
-                    value: 'created_at',
                     sortable: false
                 },
                 {
